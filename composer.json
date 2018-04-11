@@ -1,0 +1,22 @@
+{
+  "name": "fibphp/fibphp",
+  "description": "Grumpy is a PHP to Go source code transcompiler and runtime.",
+  "keywords": [
+    "PHP",
+    "Go",
+    "transcompiler",
+    "runtime"
+  ],
+  "homepage": "http://github.com/fibphp/fibphp",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kong Lin",
+      "email": "wuyou7410@gmail.com",
+      "homepage": "http://github.com/wowngasb/"
+    }
+  ],
+  "require": {
+    "nikic/php-parser": "^3.1"
+  }
+}
