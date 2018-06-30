@@ -42,6 +42,8 @@ function funcA($isError = false, $isSubError = false, $subCatch = false, $subThr
             if ($subThrow) {
                 throw $ex;
             }
+        } finally {
+            echo "\nfuncSubA finally";
         }
     } else {
         echo "\nfuncSubA done:" . funcSubA($isSubError);
@@ -85,6 +87,13 @@ function main(array $args = [])
     echo "\n\n###### SUB ERROR ######";
     try {
         echo "\nfuncA done:" . funcA(false, true);
+    } catch (ErrorA $ex) {
+        echo "\nErrorA:" . $ex->getMessage() . " <" . get_class($ex) . ">";
+    }
+
+    echo "\n\n###### CATCH SUB NO ERROR ######";
+    try {
+        echo "\nfuncA done:" . funcA(false, false, true);
     } catch (ErrorA $ex) {
         echo "\nErrorA:" . $ex->getMessage() . " <" . get_class($ex) . ">";
     }

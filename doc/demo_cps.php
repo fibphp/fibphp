@@ -43,23 +43,35 @@ function funcA(callable $cps, $isError = false, $isSubError = false, $subCatch =
         return;
     };
 
-    $cpsSub = function ($ret, Exception $ex = null) use ($cps, $otherCode, $subCatch, $subThrow) {
-        if (!is_null($ex)) {
-            if($subCatch){
+    if ($subCatch) {
+        $finallyCode = function () {
+            echo "\nfuncSubA finally";
+        };
+        $cpsSub = function ($ret, Exception $ex = null) use ($cps, $subThrow, $otherCode, $finallyCode) {
+            if (!is_null($ex)) {
                 echo "\nErrorSubA:" . $ex->getMessage() . " <" . get_class($ex) . ">";
+                $finallyCode();
                 if ($subThrow) {
                     $cps(null, $ex);
                 } else {
                     $otherCode($cps);
                 }
             } else {
-                $cps(null, $ex);
+                echo "\nfuncSubA done:" . $ret;
+                $finallyCode();
+                $otherCode($cps);
             }
-        } else {
-            echo "\nfuncSubA done:" . $ret;
-            $otherCode($cps);
-        }
-    };
+        };
+    } else {
+        $cpsSub = function ($ret, Exception $ex = null) use ($cps, $otherCode) {
+            if (!is_null($ex)) {
+                $cps(null, $ex);
+            } else {
+                echo "\nfuncSubA done:" . $ret;
+                $otherCode($cps);
+            }
+        };
+    }
     funcSubA($cpsSub, $isSubError);
 }
 
@@ -121,6 +133,15 @@ function main(array $args = [])
             echo "\nfuncA done:" . $ret;
         }
     }, false, true);
+
+    echo "\n\n###### CATCH SUB NO ERROR ######";
+    funcA(function ($ret, Exception $ex = null) {
+        if (!is_null($ex)) {
+            echo "\nErrorA:" . $ex->getMessage() . " <" . get_class($ex) . ">";
+        } else {
+            echo "\nfuncA done:" . $ret;
+        }
+    }, false, false, true);
 
     echo "\n\n###### CATCH SUB ERROR ######";
     funcA(function ($ret, Exception $ex = null) {
