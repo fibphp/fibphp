@@ -4,3 +4,5 @@ vendor/
 build/
 composer.lock
 composer.phar
+test.php
+*.md.html
