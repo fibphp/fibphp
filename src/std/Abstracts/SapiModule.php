@@ -6,7 +6,7 @@
  * Time: 2:01
  */
 
-namespace fibphp\std\Interfaces;
+namespace fibphp\std\Abstracts;
 
 /*
 
@@ -163,9 +163,80 @@ typedef struct _sapi_globals_struct {
 
 typedef struct _sapi_post_entry sapi_post_entry;
 typedef struct _sapi_module_struct sapi_module_struct;
-
 */
-interface SapiModule
-{
+use fibphp\Plugin\ZendStat;
 
+abstract class SapiModule
+{
+    // char *name;
+    static $name = '';
+
+    // char *pretty_name;
+    static $pretty_name = '';
+
+    // int (*startup)(struct _sapi_module_struct *sapi_module);
+    abstract static function startup(SapiModule $sapi_module): int;
+
+    // int (*shutdown)(struct _sapi_module_struct *sapi_module);
+    abstract static function shutdown(SapiModule $sapi_module): int;
+
+    // int (*activate)(void);
+    abstract static function activate(): int;
+
+    // int (*deactivate)(void);
+    abstract static function deactivate(): int;
+
+    // size_t (*ub_write)(const char *str, size_t str_length);
+    abstract static function ub_write(string $str, int $str_length): int;
+
+    // void (*flush)(void *server_context);
+    abstract static function flush($server_context): void;
+
+    // zend_stat_t *(*get_stat)(void);
+    abstract static function get_stat(): ZendStat;
+
+    // char *(*getenv)(char *name, size_t name_len);
+    abstract static function getenv(string $name, int $name_len): string;
+
+    // void (*sapi_error)(int type, const char *error_msg, ...) ZEND_ATTRIBUTE_FORMAT(printf, 2, 3);
+    abstract static function sapi_error(int $type, string $error_msg__FIB_Ellipsis_BIF__): void;
+
+    // int (*header_handler)(sapi_header_struct *sapi_header, sapi_header_op_enum op, sapi_headers_struct *sapi_headers);
+    abstract static function header_handler(): int;
+
+    // int (*send_headers)(sapi_headers_struct *sapi_headers);
+    // void (*send_header)(sapi_header_struct *sapi_header, void *server_context);
+
+    // size_t (*read_post)(char *buffer, size_t count_bytes);
+    // char *(*read_cookies)(void);
+
+    // void (*register_server_variables)(zval *track_vars_array);
+    // void (*log_message)(char *message, int syslog_type_int);
+    // double (*get_request_time)(void);
+    // void (*terminate_process)(void);
+
+    // char *php_ini_path_override;
+
+    // void (*default_post_reader)(void);
+    // void (*treat_data)(int arg, char *str, zval *destArray);
+    // char *executable_location;
+
+    // int php_ini_ignore;
+    // int php_ini_ignore_cwd; // don't look for php.ini in the current directory
+
+    // int (*get_fd)(int *fd);
+
+    // int (*force_http_10)(void);
+
+    // int (*get_target_uid)(uid_t *);
+    // int (*get_target_gid)(gid_t *);
+
+    // unsigned int (*input_filter)(int arg, char *var, char **val, size_t val_len, size_t *new_val_len);
+
+    // void (*ini_defaults)(HashTable *configuration_hash);
+    // int phpinfo_as_text;
+
+    // char *ini_entries;
+    // const zend_function_entry *additional_functions;
+    // unsigned int (*input_filter_init)(void);
 }
