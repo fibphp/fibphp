@@ -27,8 +27,8 @@ class Demo extends AbstractClass
             if (Util::str_startwith($key, '--')) {
 
             } elseif (Util::str_startwith($key, '-')) {
-                $key = substr(                              )
-                $ret[]
+                $key = substr();
+                $ret[] = '';
             } else {
                 $ret['__args__'][] = $key;
             }
