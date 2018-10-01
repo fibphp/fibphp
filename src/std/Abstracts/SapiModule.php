@@ -89,7 +89,7 @@ struct _sapi_post_entry {
 
 typedef struct {
 	char *line; // If you allocated this, you need to free it yourself
-size_t line_len;
+    size_t line_len;
 	zend_long response_code; // long due to zend_parse_parameters compatibility
 } sapi_header_line;
 
@@ -164,15 +164,16 @@ typedef struct _sapi_globals_struct {
 typedef struct _sapi_post_entry sapi_post_entry;
 typedef struct _sapi_module_struct sapi_module_struct;
 */
+
 use fibphp\Plugin\ZendStat;
 
 abstract class SapiModule
 {
     // char *name;
-    static $name = '';
+    public static $name = '';
 
     // char *pretty_name;
-    static $pretty_name = '';
+    public static $pretty_name = '';
 
     // int (*startup)(struct _sapi_module_struct *sapi_module);
     abstract static function startup(SapiModule $sapi_module): int;
@@ -202,34 +203,61 @@ abstract class SapiModule
     abstract static function sapi_error(int $type, string $error_msg__FIB_Ellipsis_BIF__): void;
 
     // int (*header_handler)(sapi_header_struct *sapi_header, sapi_header_op_enum op, sapi_headers_struct *sapi_headers);
-    abstract static function header_handler(): int;
+    abstract static function header_handler($sapi_header, int $op, $sapi_headers): int;
 
     // int (*send_headers)(sapi_headers_struct *sapi_headers);
+    abstract static function send_headers($sapi_headers): void;
+
     // void (*send_header)(sapi_header_struct *sapi_header, void *server_context);
+    abstract static function send_header($sapi_header, $server_context): void;
 
     // size_t (*read_post)(char *buffer, size_t count_bytes);
+    abstract static function read_post(string $buffer, int $count_bytes): int;
+
     // char *(*read_cookies)(void);
+    abstract static function read_cookies(): string;
 
     // void (*register_server_variables)(zval *track_vars_array);
+    abstract static function register_server_variables($track_vars_array): void;
+
     // void (*log_message)(char *message, int syslog_type_int);
+    abstract static function log_message(string $message, int $syslog_type_int): void;
+
     // double (*get_request_time)(void);
+    abstract static function get_request_time(): float;
+
     // void (*terminate_process)(void);
+    abstract static function terminate_process(): void;
 
     // char *php_ini_path_override;
+    public static $php_ini_path_override = '';
 
     // void (*default_post_reader)(void);
+    abstract static function default_post_reader(): void;
+
     // void (*treat_data)(int arg, char *str, zval *destArray);
+    abstract static function treat_data(int arg, string $str, $destArray): void;
+
     // char *executable_location;
+    public static $executable_location = '';
 
     // int php_ini_ignore;
+    public static $php_ini_ignore = 0;
+
     // int php_ini_ignore_cwd; // don't look for php.ini in the current directory
+    public static $php_ini_ignore_cwd = 0;
 
     // int (*get_fd)(int *fd);
+    abstract public static function get_fd(int $fd): int;
 
     // int (*force_http_10)(void);
+    abstract public static function force_http_10(): int;
 
     // int (*get_target_uid)(uid_t *);
+    abstract public static function get_target_uid(int &$uid): int;
+
     // int (*get_target_gid)(gid_t *);
+    abstract public static function get_target_gid(int &$gid): int;
 
     // unsigned int (*input_filter)(int arg, char *var, char **val, size_t val_len, size_t *new_val_len);
 
