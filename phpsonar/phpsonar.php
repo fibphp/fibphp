@@ -1,5 +1,6 @@
 <?php
 
+require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
 use phpsonar\App;
 use phpsonar\demos\Demo;

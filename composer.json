@@ -17,7 +17,7 @@
     }
   ],
   "require": {
-    "wowngasb/tiny": "^0.33",
+    "wowngasb/tiny": "^0.44",
     "nikic/php-parser": "^4"
   },
   "require-dev": {

@@ -236,7 +236,7 @@ abstract class SapiModule
     abstract static function default_post_reader(): void;
 
     // void (*treat_data)(int arg, char *str, zval *destArray);
-    abstract static function treat_data(int arg, string $str, $destArray): void;
+    abstract static function treat_data(int $arg, string $str, $destArray): void;
 
     // char *executable_location;
     public static $executable_location = '';
