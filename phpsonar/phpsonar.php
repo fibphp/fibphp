@@ -31,21 +31,26 @@ function main(array $args = [])
             ]
         ],
     ]);
+    $options = Demo::parserArgs($args);
+    // TODO TEST
+    $args[1] = 'build';
+    $options['app_root'] = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
 
-    $_cmd_ = !empty($argv[1]) ? trim($argv[1]) : 'unknown';
+    $_cmd_ = !empty($args[1]) ? trim($args[1]) : 'unknown';
     switch ($_cmd_) {
         case 'build':
-            $options = Demo::parserArgs($args);
-            $fileOrDir = !empty($args[2]) ? trim($args[2]) : './';
-            $outPutDir = !empty($args[3]) ? trim($args[3]) : './out';
-
+            $inputDir = !empty($args[2]) ? trim($args[2]) : ('.' . DIRECTORY_SEPARATOR);
+            $outputDir = !empty($args[3]) ? trim($args[3]) : ('.' . DIRECTORY_SEPARATOR . 'out');
+            $app_root = $options['app_root'] ?: $inputDir;
+            $composer = \phpsonar\Util::parseComposer($app_root);
             App::set_config('input', [
                 'args' => $args,
                 'options' => $options,
-                'fileOrDir' => $fileOrDir,
-                'outPutDir' => $outPutDir,
+                'inputDir' => $inputDir,
+                'outputDir' => $outputDir,
             ]);
-            (new Demo())->start($fileOrDir, $outPutDir, $options);
+            App::set_config('composer', $composer);
+            (new Demo())->start($inputDir, $outputDir, $composer, $options);
             break;
         case '/h':
         case '-h':
