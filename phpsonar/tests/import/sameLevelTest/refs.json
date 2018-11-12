@@ -1,0 +1,191 @@
+[
+  {
+    "ref": {
+      "name": "mod2",
+      "file": "mod1.py",
+      "start": 7,
+      "end": 11,
+      "line": 0,
+      "col": 0
+    },
+    "dests": [
+      {
+        "name": "mod2",
+        "file": "mod2.py",
+        "start": 0,
+        "end": 0,
+        "line": 0,
+        "col": 0,
+        "type": "mod2"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "mod2",
+      "file": "mod1.py",
+      "start": 17,
+      "end": 21,
+      "line": 3,
+      "col": 5
+    },
+    "dests": [
+      {
+        "name": "mod2",
+        "file": "mod2.py",
+        "start": 0,
+        "end": 0,
+        "line": 0,
+        "col": 0,
+        "type": "mod2"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "B",
+      "file": "mod1.py",
+      "start": 22,
+      "end": 23,
+      "line": 3,
+      "col": 10
+    },
+    "dests": [
+      {
+        "name": "B",
+        "file": "mod2.py",
+        "start": 6,
+        "end": 7,
+        "line": 1,
+        "col": 7,
+        "type": "<B>"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "o",
+      "file": "mod1.py",
+      "start": 32,
+      "end": 33,
+      "line": 4,
+      "col": 7
+    },
+    "dests": [
+      {
+        "name": "o",
+        "file": "mod1.py",
+        "start": 13,
+        "end": 14,
+        "line": 3,
+        "col": 1,
+        "type": "B"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "a",
+      "file": "mod1.py",
+      "start": 34,
+      "end": 35,
+      "line": 4,
+      "col": 9
+    },
+    "dests": [
+      {
+        "name": "a",
+        "file": "mod2.py",
+        "start": 13,
+        "end": 14,
+        "line": 2,
+        "col": 5,
+        "type": "str"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "mod2",
+      "file": "mod1.py",
+      "start": 41,
+      "end": 45,
+      "line": 6,
+      "col": 5
+    },
+    "dests": [
+      {
+        "name": "mod2",
+        "file": "mod2.py",
+        "start": 0,
+        "end": 0,
+        "line": 0,
+        "col": 0,
+        "type": "mod2"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "foo",
+      "file": "mod1.py",
+      "start": 46,
+      "end": 49,
+      "line": 6,
+      "col": 10
+    },
+    "dests": [
+      {
+        "name": "foo",
+        "file": "mod2.py",
+        "start": 28,
+        "end": 31,
+        "line": 5,
+        "col": 5,
+        "type": "int -> int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "x",
+      "file": "mod2.py",
+      "start": 47,
+      "end": 48,
+      "line": 6,
+      "col": 12
+    },
+    "dests": [
+      {
+        "name": "x",
+        "file": "mod2.py",
+        "start": 32,
+        "end": 33,
+        "line": 5,
+        "col": 9,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "u",
+      "file": "mod1.py",
+      "start": 60,
+      "end": 61,
+      "line": 7,
+      "col": 7
+    },
+    "dests": [
+      {
+        "name": "u",
+        "file": "mod1.py",
+        "start": 37,
+        "end": 38,
+        "line": 6,
+        "col": 1,
+        "type": "int"
+      }
+    ]
+  }
+]

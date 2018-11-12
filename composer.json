@@ -27,6 +27,7 @@
   "autoload": {
     "psr-4": {
       "phpsonar\\": "phpsonar/src/",
+      "phpsonarTests\\": "phpsonar/tests/",
       "fibphp\\": "src/",
       "tests\\": "tests/"
     }

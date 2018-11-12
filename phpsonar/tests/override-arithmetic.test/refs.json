@@ -1,0 +1,407 @@
+[
+  {
+    "ref": {
+      "name": "A",
+      "file": "test1.py",
+      "start": 456,
+      "end": 457,
+      "line": 29,
+      "col": 5
+    },
+    "dests": [
+      {
+        "name": "A",
+        "file": "test1.py",
+        "start": 13,
+        "end": 14,
+        "line": 4,
+        "col": 7,
+        "type": "<A>"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "value",
+      "file": "test1.py",
+      "start": 69,
+      "end": 74,
+      "line": 7,
+      "col": 22
+    },
+    "dests": [
+      {
+        "name": "value",
+        "file": "test1.py",
+        "start": 40,
+        "end": 45,
+        "line": 6,
+        "col": 24,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "self",
+      "file": "test1.py",
+      "start": 56,
+      "end": 60,
+      "line": 7,
+      "col": 9
+    },
+    "dests": [
+      {
+        "name": "self",
+        "file": "test1.py",
+        "start": 34,
+        "end": 38,
+        "line": 6,
+        "col": 18,
+        "type": "A"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "fib",
+      "file": "test1.py",
+      "start": 468,
+      "end": 471,
+      "line": 30,
+      "col": 7
+    },
+    "dests": [
+      {
+        "name": "fib",
+        "file": "test1.py",
+        "start": 362,
+        "end": 365,
+        "line": 22,
+        "col": 5,
+        "type": "int -> int / A -> int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "x",
+      "file": "test1.py",
+      "start": 472,
+      "end": 473,
+      "line": 30,
+      "col": 11
+    },
+    "dests": [
+      {
+        "name": "x",
+        "file": "test1.py",
+        "start": 452,
+        "end": 453,
+        "line": 29,
+        "col": 1,
+        "type": "A"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "n",
+      "file": "test1.py",
+      "start": 377,
+      "end": 378,
+      "line": 23,
+      "col": 8
+    },
+    "dests": [
+      {
+        "name": "n",
+        "file": "test1.py",
+        "start": 366,
+        "end": 367,
+        "line": 22,
+        "col": 9,
+        "type": "A"
+      },
+      {
+        "name": "n",
+        "file": "test1.py",
+        "start": 366,
+        "end": 367,
+        "line": 22,
+        "col": 9,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "other",
+      "file": "test1.py",
+      "start": 266,
+      "end": 271,
+      "line": 16,
+      "col": 23
+    },
+    "dests": [
+      {
+        "name": "other",
+        "file": "test1.py",
+        "start": 236,
+        "end": 241,
+        "line": 15,
+        "col": 22,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "self",
+      "file": "test1.py",
+      "start": 298,
+      "end": 302,
+      "line": 17,
+      "col": 20
+    },
+    "dests": [
+      {
+        "name": "self",
+        "file": "test1.py",
+        "start": 230,
+        "end": 234,
+        "line": 15,
+        "col": 16,
+        "type": "A"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "value",
+      "file": "test1.py",
+      "start": 303,
+      "end": 308,
+      "line": 17,
+      "col": 25
+    },
+    "dests": [
+      {
+        "name": "value",
+        "file": "test1.py",
+        "start": 61,
+        "end": 66,
+        "line": 7,
+        "col": 14,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "other",
+      "file": "test1.py",
+      "start": 311,
+      "end": 316,
+      "line": 17,
+      "col": 33
+    },
+    "dests": [
+      {
+        "name": "other",
+        "file": "test1.py",
+        "start": 266,
+        "end": 271,
+        "line": 16,
+        "col": 23,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "fib",
+      "file": "test1.py",
+      "start": 426,
+      "end": 429,
+      "line": 26,
+      "col": 16
+    },
+    "dests": [
+      {
+        "name": "fib",
+        "file": "test1.py",
+        "start": 362,
+        "end": 365,
+        "line": 22,
+        "col": 5,
+        "type": "int -> int / A -> int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "n",
+      "file": "test1.py",
+      "start": 430,
+      "end": 431,
+      "line": 26,
+      "col": 20
+    },
+    "dests": [
+      {
+        "name": "n",
+        "file": "test1.py",
+        "start": 366,
+        "end": 367,
+        "line": 22,
+        "col": 9,
+        "type": "A"
+      },
+      {
+        "name": "n",
+        "file": "test1.py",
+        "start": 366,
+        "end": 367,
+        "line": 22,
+        "col": 9,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "other",
+      "file": "test1.py",
+      "start": 128,
+      "end": 133,
+      "line": 10,
+      "col": 23
+    },
+    "dests": [
+      {
+        "name": "other",
+        "file": "test1.py",
+        "start": 98,
+        "end": 103,
+        "line": 9,
+        "col": 23,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "self",
+      "file": "test1.py",
+      "start": 160,
+      "end": 164,
+      "line": 11,
+      "col": 20
+    },
+    "dests": [
+      {
+        "name": "self",
+        "file": "test1.py",
+        "start": 92,
+        "end": 96,
+        "line": 9,
+        "col": 17,
+        "type": "A"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "value",
+      "file": "test1.py",
+      "start": 165,
+      "end": 170,
+      "line": 11,
+      "col": 25
+    },
+    "dests": [
+      {
+        "name": "value",
+        "file": "test1.py",
+        "start": 61,
+        "end": 66,
+        "line": 7,
+        "col": 14,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "other",
+      "file": "test1.py",
+      "start": 173,
+      "end": 178,
+      "line": 11,
+      "col": 33
+    },
+    "dests": [
+      {
+        "name": "other",
+        "file": "test1.py",
+        "start": 128,
+        "end": 133,
+        "line": 10,
+        "col": 23,
+        "type": "int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "fib",
+      "file": "test1.py",
+      "start": 439,
+      "end": 442,
+      "line": 26,
+      "col": 29
+    },
+    "dests": [
+      {
+        "name": "fib",
+        "file": "test1.py",
+        "start": 362,
+        "end": 365,
+        "line": 22,
+        "col": 5,
+        "type": "int -> int / A -> int"
+      }
+    ]
+  },
+  {
+    "ref": {
+      "name": "n",
+      "file": "test1.py",
+      "start": 443,
+      "end": 444,
+      "line": 26,
+      "col": 33
+    },
+    "dests": [
+      {
+        "name": "n",
+        "file": "test1.py",
+        "start": 366,
+        "end": 367,
+        "line": 22,
+        "col": 9,
+        "type": "int"
+      },
+      {
+        "name": "n",
+        "file": "test1.py",
+        "start": 366,
+        "end": 367,
+        "line": 22,
+        "col": 9,
+        "type": "A"
+      }
+    ]
+  }
+]

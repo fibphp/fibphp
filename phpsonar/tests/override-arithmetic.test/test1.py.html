@@ -1,0 +1,103 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>D:\github\pysonar2\tests\override-arithmetic.test\test1.py</title>
+<style type='text/css'>
+body { color: #666666; }
+a {
+    text-decoration: none; color: #5AA2A7;
+    border: solid 1px rgba(255,255,255,0);
+}
+a.active {
+    background: -webkit-linear-gradient(top,rgba(255, 255, 200, 0.35) 0,rgba(255, 255, 200, 0.55) 100%);
+    border: solid 1px #E5E600;
+}
+table, th, td { border: 1px solid lightgrey; padding: 5px; corner: rounded; }
+.builtin {color: #B17E41;}
+.comment, .block-comment {color: #aaaaaa; font-style: italic;}
+.constant {color: #888888;}
+.decorator {color: #778899;}
+.doc-string {color: #aaaaaa;}
+.error {border-bottom: 1px solid red;}
+.field-name {color: #2e8b57;}
+.function {color: #4682b4;}
+.identifier {color: #8b7765;}
+.info {border-bottom: 1px dotted RoyalBlue;}
+.keyword {color: #0000cd;}
+.lineno {color: #cccccc;}
+.number {color: #483d8b;}
+.parameter {color: #777777;}
+.string {color: #999999;}
+.type-name {color: #4682b4;}
+.warning {border-bottom: 1px solid orange; padding-bottom: 1px}
+</style>
+<script language="JavaScript" type="text/javascript">
+var highlighted;
+
+function highlight(xid)
+{
+    var elms = document.querySelectorAll('[xid="' + xid + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "active";
+    }
+    highlighted = xid;
+}
+
+function clearHighlight() {
+    var elms = document.querySelectorAll('[xid="' + highlighted + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "";
+    }
+}
+
+window.onload =
+    function (e) {
+        var tags = document.getElementsByTagName("A")
+        for (var i = 0; i < tags.length; i++) {
+            tags[i].onmouseover =
+                function (e) {
+                    clearHighlight();
+                    var xid = e.toElement.getAttribute('xid');
+                    highlight(xid);
+                }
+        }
+    }</script>
+</head>
+<body>
+<table width=100% border='1px solid gray'><tr><td valign='top'><ul>
+<li><a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A', xid='.github.pysonar2.tests.override-arithmetic%20test.test1.A'>A</a><ul>
+<li><a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__', xid='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__'>__init__</a></li><li><a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__', xid='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__'>__sub__</a></li><li><a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__', xid='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__'>__lt__</a></li></ul>
+</li><li><a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.fib', xid='.github.pysonar2.tests.override-arithmetic%20test.test1.fib'>fib</a></li><li><a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.x', xid='.github.pysonar2.tests.override-arithmetic%20test.test1.x'>x</a></li></ul>
+</td><td><pre><span class='lineno'>   1</span> # t4
+<span class='lineno'>   2</span> 
+<span class='lineno'>   3</span> 
+<span class='lineno'>   4</span> class <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A', title='<A>'>A</a>:
+<span class='lineno'>   5</span> 
+<span class='lineno'>   6</span>     def <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__', title='? -> ?'>__init__</a>(<a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__.self', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__.self', title='A'>self</a>, <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__.value', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__.value', title='int'>value</a>):
+<span class='lineno'>   7</span>         <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__.self', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__.self', title='A'>self</a>.<a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.value', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.value', title='int'>value</a> = <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__.value', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__init__.value', title='int'>value</a>
+<span class='lineno'>   8</span> 
+<span class='lineno'>   9</span>     def <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__', title='(A, int) -> int'>__sub__</a>(<a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.self', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.self', title='A'>self</a>, <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.other', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.other', title='int'>other</a>):
+<span class='lineno'>  10</span>         if isinstance(<a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.other', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.other', title='int'><a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.other', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.other', title='int'>other</a></a>, int):
+<span class='lineno'>  11</span>             return <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.self', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.self', title='A'>self</a>.<a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.value', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.value', title='int'>value</a> * <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.other', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__sub__.other', title='int'>other</a>
+<span class='lineno'>  12</span>         else:
+<span class='lineno'>  13</span>             return 0
+<span class='lineno'>  14</span> 
+<span class='lineno'>  15</span>     def <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__', title='(A, int) -> {bool | int}'>__lt__</a>(<a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.self', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.self', title='A'>self</a>, <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.other', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.other', title='int'>other</a>):
+<span class='lineno'>  16</span>         if isinstance(<a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.other', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.other', title='int'><a name='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.other', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.other', title='int'>other</a></a>, int):
+<span class='lineno'>  17</span>             return <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.self', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.self', title='A'>self</a>.<a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.value', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.value', title='int'>value</a> + <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.other', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A.__lt__.other', title='int'>other</a>
+<span class='lineno'>  18</span>         else:
+<span class='lineno'>  19</span>             return False
+<span class='lineno'>  20</span> 
+<span class='lineno'>  21</span> 
+<span class='lineno'>  22</span> def <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.fib', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.fib', title='int -> int / A -> int'>fib</a>(<a name='.github.pysonar2.tests.override-arithmetic%20test.test1.fib.n', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.fib.n', title='{A | int}'>n</a>):
+<span class='lineno'>  23</span>     if <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.fib.n', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.fib.n', title='{A | int}'>n</a> &lt; 2:
+<span class='lineno'>  24</span>         return 1
+<span class='lineno'>  25</span>     else:
+<span class='lineno'>  26</span>         return <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.fib', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.fib', title='int -> int / A -> int'>fib</a>(<a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.fib.n', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.fib.n', title='{A | int}'>n</a> - 1) + <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.fib', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.fib', title='int -> int / A -> int'>fib</a>(<a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.fib.n', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.fib.n', title='{A | int}'>n</a> - 2)
+<span class='lineno'>  27</span> 
+<span class='lineno'>  28</span> 
+<span class='lineno'>  29</span> <a name='.github.pysonar2.tests.override-arithmetic%20test.test1.x', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.x', title='A'>x</a> = <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.A', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.A', title='<A>'>A</a>(42)
+<span class='lineno'>  30</span> print <a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.fib', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.fib', title='int -> int / A -> int'>fib</a>(<a href='#.github.pysonar2.tests.override-arithmetic%20test.test1.x', xid ='.github.pysonar2.tests.override-arithmetic%20test.test1.x', title='A'>x</a>)
+</pre></td></tr></table></body></html>

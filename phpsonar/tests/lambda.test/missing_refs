@@ -1,0 +1,9 @@
+     * Missing reference from foo:8:5 to foo:4:5
+     * Missing reference from f:5:9 to f:4:9
+     * Missing reference from a:8:22 to a:8:16
+     * Missing reference from b:8:24 to b:8:18
+     * Missing reference from y:6:12 to y:5:5
+     * Missing reference from z:9:7 to z:8:1
+     * Missing reference from f:11:16 to f:11:13
+     * Missing reference from x:11:32 to x:11:29
+     * Missing reference from w:12:7 to w:11:1

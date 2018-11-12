@@ -1,0 +1,8 @@
+     * Missing reference from mod2:3:5 to mod2.py:mod2:0:0
+     * Missing reference from B:3:10 to mod2.py:B:1:7
+     * Missing reference from o:4:7 to o:3:1
+     * Missing reference from a:4:9 to mod2.py:a:2:5
+     * Missing reference from mod2:6:5 to mod2.py:mod2:0:0
+     * Missing reference from foo:6:10 to mod2.py:foo:5:5
+     * Missing reference from x:6:12 to x:5:9
+     * Missing reference from u:7:7 to u:6:1

@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>D:\github\pysonar2\tests\identity.test\test1.py</title>
+<style type='text/css'>
+body { color: #666666; }
+a {
+    text-decoration: none; color: #5AA2A7;
+    border: solid 1px rgba(255,255,255,0);
+}
+a.active {
+    background: -webkit-linear-gradient(top,rgba(255, 255, 200, 0.35) 0,rgba(255, 255, 200, 0.55) 100%);
+    border: solid 1px #E5E600;
+}
+table, th, td { border: 1px solid lightgrey; padding: 5px; corner: rounded; }
+.builtin {color: #B17E41;}
+.comment, .block-comment {color: #aaaaaa; font-style: italic;}
+.constant {color: #888888;}
+.decorator {color: #778899;}
+.doc-string {color: #aaaaaa;}
+.error {border-bottom: 1px solid red;}
+.field-name {color: #2e8b57;}
+.function {color: #4682b4;}
+.identifier {color: #8b7765;}
+.info {border-bottom: 1px dotted RoyalBlue;}
+.keyword {color: #0000cd;}
+.lineno {color: #cccccc;}
+.number {color: #483d8b;}
+.parameter {color: #777777;}
+.string {color: #999999;}
+.type-name {color: #4682b4;}
+.warning {border-bottom: 1px solid orange; padding-bottom: 1px}
+</style>
+<script language="JavaScript" type="text/javascript">
+var highlighted;
+
+function highlight(xid)
+{
+    var elms = document.querySelectorAll('[xid="' + xid + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "active";
+    }
+    highlighted = xid;
+}
+
+function clearHighlight() {
+    var elms = document.querySelectorAll('[xid="' + highlighted + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "";
+    }
+}
+
+window.onload =
+    function (e) {
+        var tags = document.getElementsByTagName("A")
+        for (var i = 0; i < tags.length; i++) {
+            tags[i].onmouseover =
+                function (e) {
+                    clearHighlight();
+                    var xid = e.toElement.getAttribute('xid');
+                    highlight(xid);
+                }
+        }
+    }</script>
+</head>
+<body>
+<table width=100% border='1px solid gray'><tr><td valign='top'><ul>
+<li><a href='#.github.pysonar2.tests.identity%20test.test1.foo', xid='.github.pysonar2.tests.identity%20test.test1.foo'>foo</a></li><li><a href='#.github.pysonar2.tests.identity%20test.test1.id', xid='.github.pysonar2.tests.identity%20test.test1.id'>id</a></li><li><a href='#.github.pysonar2.tests.identity%20test.test1.a', xid='.github.pysonar2.tests.identity%20test.test1.a'>a</a></li></ul>
+</td><td><pre><span class='lineno'>   1</span> # test
+<span class='lineno'>   2</span> 
+<span class='lineno'>   3</span> def <a name='.github.pysonar2.tests.identity%20test.test1.foo', xid ='.github.pysonar2.tests.identity%20test.test1.foo', title='bool -> bool / int -> int -> (int, bool)'>foo</a>(<a name='.github.pysonar2.tests.identity%20test.test1.foo.f', xid ='.github.pysonar2.tests.identity%20test.test1.foo.f', title='bool -> bool / int -> int'>f</a>):
+<span class='lineno'>   4</span>     return <a href='#.github.pysonar2.tests.identity%20test.test1.foo.f', xid ='.github.pysonar2.tests.identity%20test.test1.foo.f', title='bool -> bool / int -> int'>f</a>(1), <a href='#.github.pysonar2.tests.identity%20test.test1.foo.f', xid ='.github.pysonar2.tests.identity%20test.test1.foo.f', title='bool -> bool / int -> int'>f</a>(True)
+<span class='lineno'>   5</span> 
+<span class='lineno'>   6</span> def <a name='.github.pysonar2.tests.identity%20test.test1.id', xid ='.github.pysonar2.tests.identity%20test.test1.id', title='bool -> bool / int -> int'>id</a>(<a name='.github.pysonar2.tests.identity%20test.test1.id.x', xid ='.github.pysonar2.tests.identity%20test.test1.id.x', title='{bool | int}'>x</a>):
+<span class='lineno'>   7</span>     return <a href='#.github.pysonar2.tests.identity%20test.test1.id.x', xid ='.github.pysonar2.tests.identity%20test.test1.id.x', title='{bool | int}'>x</a>
+<span class='lineno'>   8</span> 
+<span class='lineno'>   9</span> <a name='.github.pysonar2.tests.identity%20test.test1.a', xid ='.github.pysonar2.tests.identity%20test.test1.a', title='(int, bool)'>a</a> = <a href='#.github.pysonar2.tests.identity%20test.test1.foo', xid ='.github.pysonar2.tests.identity%20test.test1.foo', title='bool -> bool / int -> int -> (int, bool)'>foo</a>(<a href='#.github.pysonar2.tests.identity%20test.test1.id', xid ='.github.pysonar2.tests.identity%20test.test1.id', title='bool -> bool / int -> int'>id</a>)
+<span class='lineno'>  10</span> print(<a href='#.github.pysonar2.tests.identity%20test.test1.a', xid ='.github.pysonar2.tests.identity%20test.test1.a', title='(int, bool)'>a</a>)
+<span class='lineno'>  11</span> 
+<span class='lineno'>  12</span> 
+</pre></td></tr></table></body></html>

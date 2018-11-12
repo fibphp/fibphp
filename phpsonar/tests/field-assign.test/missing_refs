@@ -1,0 +1,8 @@
+     * Missing reference from A:6:5 to A:3:7
+     * Missing reference from a:7:1 to a:6:1
+     * Missing reference from x:7:3 to x:4:5
+     * Missing reference from a:8:1 to a:6:1
+     * Missing reference from a:10:7 to a:6:1
+     * Missing reference from x:10:9 to x:4:5
+     * Missing reference from a:10:12 to a:6:1
+     * Missing reference from y:10:14 to y:8:3

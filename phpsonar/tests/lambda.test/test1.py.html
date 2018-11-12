@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>D:\github\pysonar2\tests\lambda.test\test1.py</title>
+<style type='text/css'>
+body { color: #666666; }
+a {
+    text-decoration: none; color: #5AA2A7;
+    border: solid 1px rgba(255,255,255,0);
+}
+a.active {
+    background: -webkit-linear-gradient(top,rgba(255, 255, 200, 0.35) 0,rgba(255, 255, 200, 0.55) 100%);
+    border: solid 1px #E5E600;
+}
+table, th, td { border: 1px solid lightgrey; padding: 5px; corner: rounded; }
+.builtin {color: #B17E41;}
+.comment, .block-comment {color: #aaaaaa; font-style: italic;}
+.constant {color: #888888;}
+.decorator {color: #778899;}
+.doc-string {color: #aaaaaa;}
+.error {border-bottom: 1px solid red;}
+.field-name {color: #2e8b57;}
+.function {color: #4682b4;}
+.identifier {color: #8b7765;}
+.info {border-bottom: 1px dotted RoyalBlue;}
+.keyword {color: #0000cd;}
+.lineno {color: #cccccc;}
+.number {color: #483d8b;}
+.parameter {color: #777777;}
+.string {color: #999999;}
+.type-name {color: #4682b4;}
+.warning {border-bottom: 1px solid orange; padding-bottom: 1px}
+</style>
+<script language="JavaScript" type="text/javascript">
+var highlighted;
+
+function highlight(xid)
+{
+    var elms = document.querySelectorAll('[xid="' + xid + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "active";
+    }
+    highlighted = xid;
+}
+
+function clearHighlight() {
+    var elms = document.querySelectorAll('[xid="' + highlighted + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "";
+    }
+}
+
+window.onload =
+    function (e) {
+        var tags = document.getElementsByTagName("A")
+        for (var i = 0; i < tags.length; i++) {
+            tags[i].onmouseover =
+                function (e) {
+                    clearHighlight();
+                    var xid = e.toElement.getAttribute('xid');
+                    highlight(xid);
+                }
+        }
+    }</script>
+</head>
+<body>
+<table width=100% border='1px solid gray'><tr><td valign='top'><ul>
+<li><a href='#.github.pysonar2.tests.lambda%20test.test1.foo', xid='.github.pysonar2.tests.lambda%20test.test1.foo'>foo</a></li><li><a href='#.github.pysonar2.tests.lambda%20test.test1.z', xid='.github.pysonar2.tests.lambda%20test.test1.z'>z</a></li><li><a href='#.github.pysonar2.tests.lambda%20test.test1.w', xid='.github.pysonar2.tests.lambda%20test.test1.w'>w</a></li></ul>
+</td><td><pre><span class='lineno'>   1</span> # test lambda
+<span class='lineno'>   2</span> 
+<span class='lineno'>   3</span> 
+<span class='lineno'>   4</span> def <a name='.github.pysonar2.tests.lambda%20test.test1.foo', xid ='.github.pysonar2.tests.lambda%20test.test1.foo', title='(int, str) -> [{int | str}] -> [{int | str}]'>foo</a>(<a name='.github.pysonar2.tests.lambda%20test.test1.foo.f', xid ='.github.pysonar2.tests.lambda%20test.test1.foo.f', title='(int, str) -> [{int | str}]'>f</a>):
+<span class='lineno'>   5</span>     <a name='.github.pysonar2.tests.lambda%20test.test1.foo.y', xid ='.github.pysonar2.tests.lambda%20test.test1.foo.y', title='[{int | str}]'>y</a> = <a href='#.github.pysonar2.tests.lambda%20test.test1.foo.f', xid ='.github.pysonar2.tests.lambda%20test.test1.foo.f', title='(int, str) -> [{int | str}]'>f</a>(1, &quot;hi&quot;)
+<span class='lineno'>   6</span>     return <a href='#.github.pysonar2.tests.lambda%20test.test1.foo.y', xid ='.github.pysonar2.tests.lambda%20test.test1.foo.y', title='[{int | str}]'>y</a>
+<span class='lineno'>   7</span> 
+<span class='lineno'>   8</span> <a name='.github.pysonar2.tests.lambda%20test.test1.z', xid ='.github.pysonar2.tests.lambda%20test.test1.z', title='[{int | str}]'>z</a> = <a href='#.github.pysonar2.tests.lambda%20test.test1.foo', xid ='.github.pysonar2.tests.lambda%20test.test1.foo', title='(int, str) -> [{int | str}] -> [{int | str}]'>foo</a>(lambda <a name='.github.pysonar2.tests.lambda%20test.test1.lambda%1.a', xid ='.github.pysonar2.tests.lambda%20test.test1.lambda%1.a', title='int'>a</a>,<a name='.github.pysonar2.tests.lambda%20test.test1.lambda%1.b', xid ='.github.pysonar2.tests.lambda%20test.test1.lambda%1.b', title='str'>b</a>: [<a href='#.github.pysonar2.tests.lambda%20test.test1.lambda%1.a', xid ='.github.pysonar2.tests.lambda%20test.test1.lambda%1.a', title='int'>a</a>,<a href='#.github.pysonar2.tests.lambda%20test.test1.lambda%1.b', xid ='.github.pysonar2.tests.lambda%20test.test1.lambda%1.b', title='str'>b</a>])
+<span class='lineno'>   9</span> print <a href='#.github.pysonar2.tests.lambda%20test.test1.z', xid ='.github.pysonar2.tests.lambda%20test.test1.z', title='[{int | str}]'>z</a>
+<span class='lineno'>  10</span> 
+<span class='lineno'>  11</span> <a name='.github.pysonar2.tests.lambda%20test.test1.w', xid ='.github.pysonar2.tests.lambda%20test.test1.w', title='int'>w</a> = (lambda <a name='.github.pysonar2.tests.lambda%20test.test1.lambda%2.f', xid ='.github.pysonar2.tests.lambda%20test.test1.lambda%2.f', title='int -> int'>f</a>: <a href='#.github.pysonar2.tests.lambda%20test.test1.lambda%2.f', xid ='.github.pysonar2.tests.lambda%20test.test1.lambda%2.f', title='int -> int'>f</a>(1))(lambda <a name='.github.pysonar2.tests.lambda%20test.test1.lambda%3.x', xid ='.github.pysonar2.tests.lambda%20test.test1.lambda%3.x', title='int'>x</a>: <a href='#.github.pysonar2.tests.lambda%20test.test1.lambda%3.x', xid ='.github.pysonar2.tests.lambda%20test.test1.lambda%3.x', title='int'>x</a>+1)
+<span class='lineno'>  12</span> print <a href='#.github.pysonar2.tests.lambda%20test.test1.w', xid ='.github.pysonar2.tests.lambda%20test.test1.w', title='int'>w</a>
+</pre></td></tr></table></body></html>

@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>D:\github\pysonar2\tests\import\import-from.test\import-same-level.py</title>
+<style type='text/css'>
+body { color: #666666; }
+a {
+    text-decoration: none; color: #5AA2A7;
+    border: solid 1px rgba(255,255,255,0);
+}
+a.active {
+    background: -webkit-linear-gradient(top,rgba(255, 255, 200, 0.35) 0,rgba(255, 255, 200, 0.55) 100%);
+    border: solid 1px #E5E600;
+}
+table, th, td { border: 1px solid lightgrey; padding: 5px; corner: rounded; }
+.builtin {color: #B17E41;}
+.comment, .block-comment {color: #aaaaaa; font-style: italic;}
+.constant {color: #888888;}
+.decorator {color: #778899;}
+.doc-string {color: #aaaaaa;}
+.error {border-bottom: 1px solid red;}
+.field-name {color: #2e8b57;}
+.function {color: #4682b4;}
+.identifier {color: #8b7765;}
+.info {border-bottom: 1px dotted RoyalBlue;}
+.keyword {color: #0000cd;}
+.lineno {color: #cccccc;}
+.number {color: #483d8b;}
+.parameter {color: #777777;}
+.string {color: #999999;}
+.type-name {color: #4682b4;}
+.warning {border-bottom: 1px solid orange; padding-bottom: 1px}
+</style>
+<script language="JavaScript" type="text/javascript">
+var highlighted;
+
+function highlight(xid)
+{
+    var elms = document.querySelectorAll('[xid="' + xid + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "active";
+    }
+    highlighted = xid;
+}
+
+function clearHighlight() {
+    var elms = document.querySelectorAll('[xid="' + highlighted + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "";
+    }
+}
+
+window.onload =
+    function (e) {
+        var tags = document.getElementsByTagName("A")
+        for (var i = 0; i < tags.length; i++) {
+            tags[i].onmouseover =
+                function (e) {
+                    clearHighlight();
+                    var xid = e.toElement.getAttribute('xid');
+                    highlight(xid);
+                }
+        }
+    }</script>
+</head>
+<body>
+<table width=100% border='1px solid gray'><tr><td valign='top'><ul>
+<li><a href='#.github.pysonar2.tests.import.import-from%20test.import-same-level.k1', xid='.github.pysonar2.tests.import.import-from%20test.import-same-level.k1'>k1</a></li></ul>
+</td><td><pre><span class='lineno'>   1</span> from <a href='drawer.py.html#.github.pysonar2.tests.import.import-from%20test.drawer', xid ='.github.pysonar2.tests.import.import-from%20test.drawer', title='drawer'>drawer</a> import <a href='drawer.py.html#.github.pysonar2.tests.import.import-from%20test.drawer.Knife', xid ='.github.pysonar2.tests.import.import-from%20test.drawer.Knife', title='<Knife>'>Knife</a>
+<span class='lineno'>   2</span> 
+<span class='lineno'>   3</span> <a name='.github.pysonar2.tests.import.import-from%20test.import-same-level.k1', xid ='.github.pysonar2.tests.import.import-from%20test.import-same-level.k1', title='Knife'>k1</a> = <a href='drawer.py.html#.github.pysonar2.tests.import.import-from%20test.drawer.Knife', xid ='.github.pysonar2.tests.import.import-from%20test.drawer.Knife', title='<Knife>'>Knife</a>()
+<span class='lineno'>   4</span> print <a href='#.github.pysonar2.tests.import.import-from%20test.import-same-level.k1', xid ='.github.pysonar2.tests.import.import-from%20test.import-same-level.k1', title='Knife'>k1</a>.<a href='drawer.py.html#.github.pysonar2.tests.import.import-from%20test.drawer.Knife.length', xid ='.github.pysonar2.tests.import.import-from%20test.drawer.Knife.length', title='str'>length</a>
+</pre></td></tr></table></body></html>

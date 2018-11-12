@@ -1,0 +1,86 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>D:\github\pysonar2\tests\import\import-from.test\kitchen\__init__.py</title>
+<style type='text/css'>
+body { color: #666666; }
+a {
+    text-decoration: none; color: #5AA2A7;
+    border: solid 1px rgba(255,255,255,0);
+}
+a.active {
+    background: -webkit-linear-gradient(top,rgba(255, 255, 200, 0.35) 0,rgba(255, 255, 200, 0.55) 100%);
+    border: solid 1px #E5E600;
+}
+table, th, td { border: 1px solid lightgrey; padding: 5px; corner: rounded; }
+.builtin {color: #B17E41;}
+.comment, .block-comment {color: #aaaaaa; font-style: italic;}
+.constant {color: #888888;}
+.decorator {color: #778899;}
+.doc-string {color: #aaaaaa;}
+.error {border-bottom: 1px solid red;}
+.field-name {color: #2e8b57;}
+.function {color: #4682b4;}
+.identifier {color: #8b7765;}
+.info {border-bottom: 1px dotted RoyalBlue;}
+.keyword {color: #0000cd;}
+.lineno {color: #cccccc;}
+.number {color: #483d8b;}
+.parameter {color: #777777;}
+.string {color: #999999;}
+.type-name {color: #4682b4;}
+.warning {border-bottom: 1px solid orange; padding-bottom: 1px}
+</style>
+<script language="JavaScript" type="text/javascript">
+var highlighted;
+
+function highlight(xid)
+{
+    var elms = document.querySelectorAll('[xid="' + xid + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "active";
+    }
+    highlighted = xid;
+}
+
+function clearHighlight() {
+    var elms = document.querySelectorAll('[xid="' + highlighted + '"]');
+    for (k in elms) {
+        v = elms[k]
+        v.className = "";
+    }
+}
+
+window.onload =
+    function (e) {
+        var tags = document.getElementsByTagName("A")
+        for (var i = 0; i < tags.length; i++) {
+            tags[i].onmouseover =
+                function (e) {
+                    clearHighlight();
+                    var xid = e.toElement.getAttribute('xid');
+                    highlight(xid);
+                }
+        }
+    }</script>
+</head>
+<body>
+<table width=100% border='1px solid gray'><tr><td valign='top'><ul>
+<li><a href='#.github.pysonar2.tests.import.import-from%20test.kitchen.__all__', xid='.github.pysonar2.tests.import.import-from%20test.kitchen.__all__'>__all__</a></li><li><a href='#.github.pysonar2.tests.import.import-from%20test.kitchen.spoon', xid='.github.pysonar2.tests.import.import-from%20test.kitchen.spoon'>spoon</a></li><li><a href='#.github.pysonar2.tests.import.import-from%20test.kitchen.fork', xid='.github.pysonar2.tests.import.import-from%20test.kitchen.fork'>fork</a></li><li><a href='#.github.pysonar2.tests.import.import-from%20test.kitchen.knife', xid='.github.pysonar2.tests.import.import-from%20test.kitchen.knife'>knife</a></li></ul>
+</td><td><pre><span class='lineno'>   1</span> # knife is not exported
+<span class='lineno'>   2</span> <a name='.github.pysonar2.tests.import.import-from%20test.kitchen.__all__', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.__all__', title='[str]'>__all__</a> = [&quot;spoon&quot;, &quot;fork&quot;]
+<span class='lineno'>   3</span> 
+<span class='lineno'>   4</span> 
+<span class='lineno'>   5</span> def <a name='.github.pysonar2.tests.import.import-from%20test.kitchen.spoon', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.spoon', title='int -> int'>spoon</a>(<a name='.github.pysonar2.tests.import.import-from%20test.kitchen.spoon.x', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.spoon.x', title='int'>x</a>):
+<span class='lineno'>   6</span>     return <a href='#.github.pysonar2.tests.import.import-from%20test.kitchen.spoon.x', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.spoon.x', title='int'>x</a>
+<span class='lineno'>   7</span> 
+<span class='lineno'>   8</span> 
+<span class='lineno'>   9</span> def <a name='.github.pysonar2.tests.import.import-from%20test.kitchen.fork', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.fork', title='int -> [int]'>fork</a>(<a name='.github.pysonar2.tests.import.import-from%20test.kitchen.fork.x', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.fork.x', title='int'>x</a>):
+<span class='lineno'>  10</span>     return [<a href='#.github.pysonar2.tests.import.import-from%20test.kitchen.fork.x', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.fork.x', title='int'>x</a>,<a href='#.github.pysonar2.tests.import.import-from%20test.kitchen.fork.x', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.fork.x', title='int'>x</a>]
+<span class='lineno'>  11</span> 
+<span class='lineno'>  12</span> 
+<span class='lineno'>  13</span> # knife is not exported
+<span class='lineno'>  14</span> def <a name='.github.pysonar2.tests.import.import-from%20test.kitchen.knife', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.knife', title='? -> int'>knife</a>(<a name='.github.pysonar2.tests.import.import-from%20test.kitchen.knife.x', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.knife.x', title='?'>x</a>):
+<span class='lineno'>  15</span>     return <a href='#.github.pysonar2.tests.import.import-from%20test.kitchen.knife.x', xid ='.github.pysonar2.tests.import.import-from%20test.kitchen.knife.x', title='?'>x</a>+1
+</pre></td></tr></table></body></html>
