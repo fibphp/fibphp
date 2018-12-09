@@ -1,6 +1,7 @@
 <?php
+require_once(dirname(dirname(dirname(dirname(__DIR__)))) . '/vendor/autoload.php');
 
-import kitchen.oven
+use phpsonarTests\import\multiLevelTest\kitchen\Pizza;
 
-pizza = kitchen.oven.Pizza(['mushroom', 'sauage', 'cheeze'])
-print pizza.get_toppings()
+$pizza = new Pizza(['mushroom', 'sauage', 'cheeze']);
+var_dump($pizza->get_toppings());
