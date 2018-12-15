@@ -13,12 +13,70 @@ use Tiny\Util as _Util;
 class Util extends _Util
 {
 
+    /**
+     * 获取 obj 后缀 带点
+     * @param string $object
+     * @return string
+     */
+    public static function getObjectExt(string $object)
+    {
+        $idx1 = intval(strrpos($object, '/'));
+        $idx2 = intval(strrpos($object, "\\"));
+        $s_idx = $idx1 > $idx2 ? $idx1 : $idx2;
+        $dot_idx = strrpos($object, '.', $s_idx);
+        return $dot_idx !== false ? substr($object, $dot_idx) : '';
+    }
+
+    /**
+     * 替换 obj 后缀
+     * @param string $object
+     * @param string $ext
+     * @return string
+     */
+    public static function replaceObjectExt(string $object, string $ext)
+    {
+        $ext = !self::stri_startwith($ext, '.') ? ".{$ext}" : $ext;
+        $idx1 = intval(strrpos($object, '/'));
+        $idx2 = intval(strrpos($object, "\\"));
+        $s_idx = $idx1 > $idx2 ? $idx1 : $idx2;
+        $dot_idx = strrpos($object, '.', $s_idx);
+        return $dot_idx !== false ? substr($object, 0, $dot_idx) . $ext : $object . $ext;
+    }
+
+    public static function scanFiles($path, callable $func = null)
+    {
+        $file_map = [];
+        foreach (scandir($path) as $afile) {
+            if ($afile == '.' || $afile == '..') {
+                continue;
+            }
+            $_path = "{$path}/{$afile}";
+            if (is_dir($_path)) {
+                $file_map = array_merge($file_map, self::scanFiles($_path, $func));
+            } else if (is_file($_path)) {
+                if ($func) {
+                    $test = $func($_path);
+                    if ($test) {
+                        $file_map[$_path] = $afile;
+                    }
+                } else {
+                    $file_map[$_path] = $afile;
+                }
+            }
+        }
+        return $file_map;
+    }
+
     public static function parseComposer(string $app_root): array
     {
         $app_root = self::str_endwith($app_root, DIRECTORY_SEPARATOR) ? $app_root : ($app_root . DIRECTORY_SEPARATOR);
 
         $composer_vendor = "{$app_root}vendor";
         $composer_file = "{$app_root}composer.json";
+        if (!is_file($composer_file)) {
+            return [];
+        }
+
         $composer_json = file_get_contents($composer_file);
 
         $composer = json_decode($composer_json, true);

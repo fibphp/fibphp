@@ -3,7 +3,7 @@
 require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
 use phpsonar\App;
-use phpsonar\demos\Demo;
+use phpsonar\demos\MainApp;
 
 function main(array $args = [])
 {
@@ -31,7 +31,8 @@ function main(array $args = [])
             ]
         ],
     ]);
-    $options = Demo::parserArgs($args);
+    $curpwd = getcwd() ? : dirname(__FILE__);
+    $options = MainApp::parserArgs($args);
     // TODO TEST
     $args[1] = 'build';
     $options['app_root'] = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
@@ -39,18 +40,13 @@ function main(array $args = [])
     $_cmd_ = !empty($args[1]) ? trim($args[1]) : 'unknown';
     switch ($_cmd_) {
         case 'build':
-            $inputDir = !empty($args[2]) ? trim($args[2]) : ('.' . DIRECTORY_SEPARATOR);
-            $outputDir = !empty($args[3]) ? trim($args[3]) : ('.' . DIRECTORY_SEPARATOR . 'out');
+            $inputDir = !empty($args[2]) ? trim($args[2]) : ($curpwd . DIRECTORY_SEPARATOR);
+            $outputDir = !empty($args[3]) ? trim($args[3]) : ($curpwd . DIRECTORY_SEPARATOR . 'out' . DIRECTORY_SEPARATOR);
+
             $app_root = $options['app_root'] ?: $inputDir;
             $composer = \phpsonar\Util::parseComposer($app_root);
-            App::set_config('input', [
-                'args' => $args,
-                'options' => $options,
-                'inputDir' => $inputDir,
-                'outputDir' => $outputDir,
-            ]);
-            App::set_config('composer', $composer);
-            (new Demo())->start($inputDir, $outputDir, $composer, $options);
+
+            (new MainApp($composer, $options))->start($inputDir, $outputDir, $composer, $options);
             break;
         case '/h':
         case '-h':
