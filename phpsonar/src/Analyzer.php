@@ -9,10 +9,9 @@
 namespace phpsonar;
 
 use PhpParser\Error;
-use PhpParser\NodeDumper;
-use PhpParser\NodeTraverser;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use phpsonar\Exception\ParserError;
 use Tiny\Abstracts\AbstractClass;
 
 class Analyzer extends AbstractClass
@@ -22,12 +21,49 @@ class Analyzer extends AbstractClass
     private $_options = [];
 
     private $_ast_map = [];
+    private $_std_map = [];
 
     public function __construct(string $rootPath, array $composer = [], array $options = [])
     {
         $this->_rootPath = $rootPath;
         $this->_composer = $composer;
         $this->_options = $options;
+
+        $this->_std_map = !empty($options['std_root']) ? $this->analyzeStd($options['std_root']) : [];
+    }
+
+    /**
+     * @param $std_root
+     * @throws ParserError
+     */
+    public function analyzeStd($std_root)
+    {
+        $fileList = $this->_walkStdFiles($std_root);
+        $inferencer = new StdTypeInferencer($this);
+        $state = new State($this);
+
+        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        foreach ($fileList as $path => $name) {
+            $start = microtime(true);
+            $ast = $this->loadFile($parser, $path, $name);
+            if (empty($ast)) {
+                throw new ParserError("{$name} empty ast");
+            }
+            $inferencer->traverse($ast, $state);
+            $used = round(microtime(true) - $start, 3) * 1000;
+            error_log("analyzeStd {$name} done, use:{$used}ms  =>  {$path}");
+        }
+    }
+
+    private function _walkStdFiles(string $rootPath)
+    {
+        $vendor = $rootPath . 'vendor' . DIRECTORY_SEPARATOR;
+        $tests = $rootPath . 'tests' . DIRECTORY_SEPARATOR;
+        return Util::scanFiles($rootPath, function ($path) {
+            return Util::stri_endwith($path, '.php');
+        }, function ($path) use ($vendor, $tests) {
+            return !Util::stri_startwith($path, $vendor) && !Util::stri_startwith($path, $tests);
+        });
     }
 
     public function analyze(array $fileList)
@@ -36,14 +72,16 @@ class Analyzer extends AbstractClass
 
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
         foreach ($fileList as $path => $name) {
+            $start = microtime(true);
             $ast = $this->loadFile($parser, $path, $name);
             if (empty($ast)) {
-                // TODO report error
-                continue;
+                throw new ParserError("{$name} empty ast");
             }
 
             $state = new State($this);
             $inferencer->traverse($ast, $state);
+            $used = round(microtime(true) - $start, 2) * 1000;
+            error_log("analyze {$name} done, use:{$used}ms  =>  {$path}");
         }
     }
 

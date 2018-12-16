@@ -11,9 +11,34 @@ namespace phpsonar;
 
 use PhpParser\Node;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
+use phpsonar\Node\Arg;
+use phpsonar\Node\Const_;
+use phpsonar\Node\Expr;
+use phpsonar\Node\Identifier;
+use phpsonar\Node\Name;
+use phpsonar\Node\NullableType;
+use phpsonar\Node\Param;
+use phpsonar\Node\Scalar;
+use phpsonar\Node\Stmt;
+use phpsonar\Node\VarLikeIdentifier;
 
 class TypeInferencer extends AbsTractTypeInferencer
 {
+
+    public function __construct(Analyzer $analyzer, array $visitorMap = [])
+    {
+        parent::__construct($analyzer, $visitorMap);
+        $this->registerTypeVisitor('Arg', new Arg());
+        $this->registerTypeVisitor('Const', new Const_());
+        $this->registerTypeVisitor('Expr', new Expr());
+        $this->registerTypeVisitor('Identifier', new Identifier());
+        $this->registerTypeVisitor('Name', new Name());
+        $this->registerTypeVisitor('NullableType', new NullableType());
+        $this->registerTypeVisitor('Param', new Param());
+        $this->registerTypeVisitor('Scalar', new Scalar());
+        $this->registerTypeVisitor('Stmt', new Stmt());
+        $this->registerTypeVisitor('VarLikeIdentifier', new VarLikeIdentifier());
+    }
 
     /**
      * Called once before traversal.
