@@ -1,0 +1,18 @@
+sudo: required
+
+services:
+  - docker
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+language: php
+php:
+  - '7.2'
+install:
+  - composer install
+script:
+  - docker-compose -f docker-compose.yml pull
+  - docker-compose -f docker-compose.yml build
+  - docker-compose -f docker-compose.yml run php
