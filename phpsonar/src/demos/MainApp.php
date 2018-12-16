@@ -47,6 +47,7 @@ class MainApp extends AbstractClass
      * @param string $fileOrDir
      * @param string $outPutDir
      * @throws ArgsError
+     * @throws \phpsonar\Exception\ParserError
      */
     public function start(string $fileOrDir, string $outPutDir)
     {
@@ -74,11 +75,14 @@ class MainApp extends AbstractClass
 
     private function _walkSubFiles(string $rootPath)
     {
+        $vendor = $rootPath . 'vendor' . DIRECTORY_SEPARATOR;
         $exts = Util::v($this->_options, 'exts', self::DEFAULT_EXTS);
         return Util::scanFiles($rootPath, function ($path) use ($exts) {
             $ext = Util::getObjectExt($path);
             $ext = strtolower($ext);
             return in_array($ext, $exts);
+        }, function ($path) use($vendor){
+            return !Util::stri_startwith($path, $vendor);
         });
     }
 

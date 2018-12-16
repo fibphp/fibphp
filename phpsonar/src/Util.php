@@ -43,16 +43,24 @@ class Util extends _Util
         return $dot_idx !== false ? substr($object, 0, $dot_idx) . $ext : $object . $ext;
     }
 
-    public static function scanFiles($path, callable $func = null)
+    public static function scanFiles($path, callable $func = null, callable $dir_func = null)
     {
+        $path = !Util::stri_endwith($path, DIRECTORY_SEPARATOR) ? $path . DIRECTORY_SEPARATOR : $path;
         $file_map = [];
         foreach (scandir($path) as $afile) {
             if ($afile == '.' || $afile == '..') {
                 continue;
             }
-            $_path = "{$path}/{$afile}";
+            $_path = $path . $afile;
             if (is_dir($_path)) {
-                $file_map = array_merge($file_map, self::scanFiles($_path, $func));
+                if ($dir_func) {
+                    $test = $dir_func($_path . DIRECTORY_SEPARATOR);
+                    if ($test) {
+                        $file_map = array_merge($file_map, self::scanFiles($_path, $func, $dir_func));
+                    }
+                } else {
+                    $file_map = array_merge($file_map, self::scanFiles($_path, $func, $dir_func));
+                }
             } else if (is_file($_path)) {
                 if ($func) {
                     $test = $func($_path);

@@ -31,11 +31,12 @@ function main(array $args = [])
             ]
         ],
     ]);
-    $curpwd = getcwd() ? : dirname(__FILE__);
+    $curpwd = getcwd() ?: dirname(__FILE__);
     $options = MainApp::parserArgs($args);
     // TODO TEST
     $args[1] = 'build';
     $options['app_root'] = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
+    $options['std_root'] = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'phpstorm-stubs' . DIRECTORY_SEPARATOR;
 
     $_cmd_ = !empty($args[1]) ? trim($args[1]) : 'unknown';
     switch ($_cmd_) {
