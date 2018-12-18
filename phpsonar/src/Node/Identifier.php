@@ -3,13 +3,14 @@
 namespace phpsonar\Node;
 
 use PhpParser\Node;
+use phpsonar\Abstracts\AbstractTypeVisitor;
 use phpsonar\Interfaces\TypeVisitor;
 use phpsonar\State;
 
 /**
  * Represents a non-namespaced name. Namespaced names are represented using Name nodes.
  */
-class Identifier implements TypeVisitor
+class Identifier extends AbstractTypeVisitor  implements TypeVisitor
 {
 
     /**

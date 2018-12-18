@@ -3,10 +3,11 @@
 namespace phpsonar\Node;
 
 use PhpParser\Node;
+use phpsonar\Abstracts\AbstractTypeVisitor;
 use phpsonar\Interfaces\TypeVisitor;
 use phpsonar\State;
 
-class Expr implements TypeVisitor
+class Expr extends AbstractTypeVisitor  implements TypeVisitor
 {
     /**
      * Called when entering a node.
@@ -28,7 +29,11 @@ class Expr implements TypeVisitor
      */
     public function enterNode(Node $node, State $state)
     {
-        // TODO: Implement enterNode() method.
+        $visitor = $this->loadTypeVisitor($node->getType());
+        if (!empty($visitor)) {
+            return $visitor->enterNode($node, $state);
+        }
+        return null;
     }
 
     /**
@@ -53,6 +58,10 @@ class Expr implements TypeVisitor
      */
     public function leaveNode(Node $node, State $state)
     {
-        // TODO: Implement leaveNode() method.
+        $visitor = $this->loadTypeVisitor($node->getType());
+        if (!empty($visitor)) {
+            return $visitor->leaveNode($node, $state);
+        }
+        return null;
     }
 }

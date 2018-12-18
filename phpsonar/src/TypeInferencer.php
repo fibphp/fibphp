@@ -28,16 +28,16 @@ class TypeInferencer extends AbsTractTypeInferencer
     public function __construct(Analyzer $analyzer, array $visitorMap = [])
     {
         parent::__construct($analyzer, $visitorMap);
-        $this->registerTypeVisitor('Arg', new Arg());
-        $this->registerTypeVisitor('Const', new Const_());
-        $this->registerTypeVisitor('Expr', new Expr());
-        $this->registerTypeVisitor('Identifier', new Identifier());
-        $this->registerTypeVisitor('Name', new Name());
-        $this->registerTypeVisitor('NullableType', new NullableType());
-        $this->registerTypeVisitor('Param', new Param());
-        $this->registerTypeVisitor('Scalar', new Scalar());
-        $this->registerTypeVisitor('Stmt', new Stmt());
-        $this->registerTypeVisitor('VarLikeIdentifier', new VarLikeIdentifier());
+        $this->registerTypeVisitor('Arg', new Arg($analyzer, $visitorMap));
+        $this->registerTypeVisitor('Const', new Const_($analyzer, $visitorMap));
+        $this->registerTypeVisitor('Expr', new Expr($analyzer, $visitorMap));
+        $this->registerTypeVisitor('Identifier', new Identifier($analyzer, $visitorMap));
+        $this->registerTypeVisitor('Name', new Name($analyzer, $visitorMap));
+        $this->registerTypeVisitor('NullableType', new NullableType($analyzer, $visitorMap));
+        $this->registerTypeVisitor('Param', new Param($analyzer, $visitorMap));
+        $this->registerTypeVisitor('Scalar', new Scalar($analyzer, $visitorMap));
+        $this->registerTypeVisitor('Stmt', new Stmt($analyzer, $visitorMap));
+        $this->registerTypeVisitor('VarLikeIdentifier', new VarLikeIdentifier($analyzer, $visitorMap));
     }
 
     /**
@@ -100,7 +100,7 @@ class TypeInferencer extends AbsTractTypeInferencer
      */
     public function enterNode(Node $node, State $state)
     {
-        $visitor = $this->loadTypeVisitor($node->getType());
+        $visitor = $this->loadBaseTypeVisitor($node->getType());
         if (!empty($visitor)) {
             return $visitor->enterNode($node, $state);
         }
@@ -129,7 +129,7 @@ class TypeInferencer extends AbsTractTypeInferencer
      */
     public function leaveNode(Node $node, State $state)
     {
-        $visitor = $this->loadTypeVisitor($node->getType());
+        $visitor = $this->loadBaseTypeVisitor($node->getType());
         if (!empty($visitor)) {
             return $visitor->leaveNode($node, $state);
         }

@@ -3,9 +3,11 @@
 namespace phpsonar\Node;
 
 use PhpParser\Node;
+use phpsonar\Abstracts\AbstractTypeVisitor;
+use phpsonar\Interfaces\TypeVisitor;
 use phpsonar\State;
 
-class Scalar extends Expr
+class Scalar extends AbstractTypeVisitor implements TypeVisitor
 {
     /**
      * Called when entering a node.

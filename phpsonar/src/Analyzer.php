@@ -21,19 +21,17 @@ class Analyzer extends AbstractClass
     private $_options = [];
 
     private $_ast_map = [];
-    private $_std_map = [];
 
     public function __construct(string $rootPath, array $composer = [], array $options = [])
     {
         $this->_rootPath = $rootPath;
         $this->_composer = $composer;
         $this->_options = $options;
-
-        $this->_std_map = !empty($options['std_root']) ? $this->analyzeStd($options['std_root']) : [];
     }
 
     /**
      * @param $std_root
+     * @return null|GlobalMap
      * @throws ParserError
      */
     public function analyzeStd($std_root)
@@ -53,6 +51,8 @@ class Analyzer extends AbstractClass
             $used = round(microtime(true) - $start, 3) * 1000;
             error_log("analyzeStd {$name} done, use:{$used}ms  =>  {$path}");
         }
+
+        return $state->getGlobalMap();
     }
 
     private function _walkStdFiles(string $rootPath)
@@ -66,8 +66,14 @@ class Analyzer extends AbstractClass
         });
     }
 
+    /**
+     * @param array $fileList
+     * @throws ParserError
+     */
     public function analyze(array $fileList)
     {
+        $global_map = !empty($this->_options['std_root']) ? $this->analyzeStd($this->_options['std_root']) : new GlobalMap();
+
         $inferencer = new TypeInferencer($this);
 
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
@@ -77,8 +83,8 @@ class Analyzer extends AbstractClass
             if (empty($ast)) {
                 throw new ParserError("{$name} empty ast");
             }
-
-            $state = new State($this);
+            $global_map_ = clone $global_map;
+            $state = new State($this, $global_map_);
             $inferencer->traverse($ast, $state);
             $used = round(microtime(true) - $start, 2) * 1000;
             error_log("analyze {$name} done, use:{$used}ms  =>  {$path}");
