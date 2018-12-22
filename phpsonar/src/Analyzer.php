@@ -31,6 +31,23 @@ class Analyzer extends AbstractClass
         $this->_options = $options;
     }
 
+    public static function buildCodeAtMsg(CodeAt $codeAt = null)
+    {
+        $code_str = '';
+        if (!empty($codeAt)) {
+            $code_str = " at " . $codeAt->getFile();
+            $line = $codeAt->getStartLine();
+            if ($line >= 0) {
+                $code_str .= " line:{$line}";
+            }
+            $offset = $codeAt->getStartTokenPos();
+            if ($offset >= 0) {
+                $code_str .= " offset:{$offset}";
+            }
+        }
+        return $code_str;
+    }
+
     /**
      * @param $std_root
      * @return null|GlobalMap
@@ -61,21 +78,8 @@ class Analyzer extends AbstractClass
                 false && func_get_args();
                 $tag = strtoupper($tag);
                 /** @var PhpSonarError $err */
-                $code_str = '';
-                $codeAt = $err->getCodeAt();
-                if (!empty($codeAt)) {
-                    $code_str = " at " . $codeAt->getFile();
-                    $line = $codeAt->getStartLine();
-                    if ($line >= 0) {
-                        $code_str .= " line:{$line}";
-                    }
-                    $offset = $codeAt->getStartTokenPos();
-                    if ($offset >= 0) {
-                        $code_str .= " offset:{$offset}";
-                    }
-
-                }
-                echo date('Y-m-d H:i:s') . " [$tag] " . $err->getMessage() . $code_str . "\n";
+                $code_str = self::buildCodeAtMsg($err->getCodeAt());
+                echo date('Y-m-d H:i:s') . " [$tag] " . get_class($err) . " " . $err->getMessage() . $code_str . "\n";
             });
         }
 
