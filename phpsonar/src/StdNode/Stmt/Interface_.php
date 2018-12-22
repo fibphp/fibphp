@@ -5,6 +5,7 @@ namespace phpsonar\StdNode\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
+use phpsonar\CodeAt;
 use phpsonar\StdNode\Stmt;
 use phpsonar\State;
 use phpsonar\Types\InterfaceType;
@@ -39,9 +40,9 @@ class Interface_ extends Stmt
         $name = $name_->toString();
         $global_map = $state->getGlobalMap();
         try {
-            $global_map->setInterface($name, new InterfaceType($node));
+            $global_map->setInterface($name, new InterfaceType($node), CodeAt::createByNode($this->getAnalyzer(), $node));
         } catch (Error $ex) {
-            $state->addWarn($name, $ex);
+            $state->pushWarn($name, $ex);
         }
 
         return AbsTractTypeInferencer::DONT_TRAVERSE_CHILDREN;

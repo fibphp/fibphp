@@ -15,8 +15,7 @@ class State extends AbstractClass
     private $_analyzer = null;
     private $_global_map = null;
 
-    private $_warn_map = [];
-    private $_error_map = [];
+    private $_error_stack = [];
 
     public function __construct(Analyzer $analyzer, GlobalMap $global_map = null)
     {
@@ -46,38 +45,48 @@ class State extends AbstractClass
     ############################################################
 
     /**
+     * @param $key
+     * @param $msg
+     */
+    public function pushWarn($key, $msg): void
+    {
+        $this->_error_stack[] = ['warn', $key, $msg];
+    }
+
+
+    /**
      * @return array
      */
-    public function getWarnMap(): array
+    public function getErrorStack(): array
     {
-        return $this->_warn_map;
+        return $this->_error_stack;
     }
 
     /**
      * @param $key
      * @param $msg
      */
-    public function addWarn($key, $msg): void
+    public function pushError($key, $msg): void
     {
-        $this->_warn_map[$key] = $msg;
+        $this->_error_stack[] = ['error', $key, $msg];
     }
 
-    /**
-     * @return array
-     */
-    public function getErrorMap(): array
+    public function popError()
     {
-        return $this->_error_map;
+        return !empty($this->_error_stack) ? array_pop($this->_error_stack) : [];
     }
 
-    /**
-     * @param $key
-     * @param $msg
-     */
-    public function addError($key, $msg): void
+    public function walkError(callable $func = null)
     {
-        $this->_error_map[$key] = $msg;
+        while (!empty($this->_error_stack)) {
+            list($tag, $key, $err) = array_pop($this->_error_stack);
+            if (!empty($func)) {
+                $ret = $func($tag, $key, $err);
+                if ($ret === false) {
+                    break;
+                }
+            }
+        }
     }
-
 
 }

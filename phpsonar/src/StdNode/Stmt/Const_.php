@@ -5,6 +5,7 @@ namespace phpsonar\StdNode\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
+use phpsonar\CodeAt;
 use phpsonar\StdNode\Stmt;
 use phpsonar\State;
 use Tiny\Exception\Error;
@@ -42,9 +43,9 @@ class Const_ extends Stmt
             $name = $name_->toString();
             $value = self::tryExecExpr($value_, $state);
             try {
-                $global_map->setConst($name, $value);
+                $global_map->setConst($name, $value, CodeAt::createByNode($this->getAnalyzer(), $node));
             } catch (Error $ex) {
-                $state->addWarn($name, $ex);
+                $state->pushWarn($name, $ex);
             }
         }
 

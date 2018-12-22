@@ -5,6 +5,7 @@ namespace phpsonar\StdNode\Expr;
 
 use PhpParser\Node;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
+use phpsonar\CodeAt;
 use phpsonar\StdNode\Expr;
 use phpsonar\State;
 use Tiny\Exception\Error;
@@ -32,17 +33,21 @@ class FuncCall extends Expr
     public function enterNode(Node $node, State $state)
     {
         /** @var \PhpParser\Node\Expr\FuncCall $node */
-        /** @var Node\Arg $name_ */
-        $name_ = $node->args[0];
-        $value_ = $node->args[1];
-        $_name = $name_->value;
-        $name = self::tryExecExpr($_name, $state);
-        $value = $value_->value;
-        $global_map = $state->getGlobalMap();
-        try {
-            $global_map->setConst($name, self::tryExecExpr($value, $state));
-        } catch (Error $ex) {
-            $state->addWarn($name, $ex);
+        $f_name_ = $node->name;
+        $f_name = join('::', $f_name_->parts);
+        if ($f_name == 'define') {
+            /** @var Node\Arg $name_ */
+            $name_ = $node->args[0];
+            $value_ = $node->args[1];
+            $_name = $name_->value;
+            $name = self::tryExecExpr($_name, $state);
+            $value = $value_->value;
+            $global_map = $state->getGlobalMap();
+            try {
+                $global_map->setConst($name, self::tryExecExpr($value, $state), CodeAt::createByNode($this->getAnalyzer(), $node));
+            } catch (Error $ex) {
+                $state->pushWarn($name, $ex);
+            }
         }
 
         return AbsTractTypeInferencer::DONT_TRAVERSE_CHILDREN;

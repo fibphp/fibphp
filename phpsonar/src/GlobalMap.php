@@ -9,7 +9,11 @@
 namespace phpsonar;
 
 
-use phpsonar\Exception\ParserWarn;
+use phpsonar\Exception\ReDefineClassWarn;
+use phpsonar\Exception\ReDefineConstWarn;
+use phpsonar\Exception\ReDefineFuncWarn;
+use phpsonar\Exception\ReDefineInterfaceWarn;
+use phpsonar\Exception\ReDefineVarWarn;
 use Tiny\Abstracts\AbstractClass;
 
 class GlobalMap extends AbstractClass
@@ -20,6 +24,7 @@ class GlobalMap extends AbstractClass
     private $_class_map = [];
     private $_interface_map = [];
     private $_var_map = [];
+    private $_code_at_map = [];
 
     #####################################################################
     ############################    Const    ############################
@@ -63,16 +68,19 @@ class GlobalMap extends AbstractClass
     /**
      * @param string $name
      * @param mixed $value
-     * @throws ParserWarn
+     * @param CodeAt|null $codeAt
+     * @throws ReDefineConstWarn
      */
-    public function setConst(string $name, $value): void
+    public function setConst(string $name, $value, CodeAt $codeAt = null): void
     {
         $name = self::_fixName($name);
         if (isset($this->_const_map[$name])) {
             $this->_const_map[$name] = $value;
-            throw new ParserWarn("const {$name} Already defined");
+            $this->_code_at_map[$name] = $codeAt;
+            throw new ReDefineConstWarn("const {$name} Already defined", null, $codeAt);
         } else {
             $this->_const_map[$name] = $value;
+            $this->_code_at_map[$name] = $codeAt;
         }
     }
 
@@ -109,16 +117,19 @@ class GlobalMap extends AbstractClass
     /**
      * @param $name
      * @param $func
-     * @throws ParserWarn
+     * @param CodeAt|null $codeAt
+     * @throws ReDefineFuncWarn
      */
-    public function setFunction($name, $func): void
+    public function setFunction($name, $func, CodeAt $codeAt = null): void
     {
         $name = self::_fixName($name);
         if (isset($this->_function_map[$name])) {
             $this->_function_map[$name] = $func;
-            throw new ParserWarn("func {$name} Already defined");
+            $this->_code_at_map[$name] = $codeAt;
+            throw new ReDefineFuncWarn("func {$name} Already defined", null, $codeAt);
         } else {
             $this->_function_map[$name] = $func;
+            $this->_code_at_map[$name] = $codeAt;
         }
     }
 
@@ -155,16 +166,19 @@ class GlobalMap extends AbstractClass
     /**
      * @param $name
      * @param $cls
-     * @throws ParserWarn
+     * @param CodeAt|null $codeAt
+     * @throws ReDefineClassWarn
      */
-    public function setClass($name, $cls): void
+    public function setClass($name, $cls, CodeAt $codeAt = null): void
     {
         $name = self::_fixName($name);
         if (isset($this->_class_map[$name])) {
             $this->_class_map[$name] = $cls;
-            throw new ParserWarn("class {$name} Already defined");
+            $this->_code_at_map[$name] = $codeAt;
+            throw new ReDefineClassWarn("class {$name} Already defined", null, $codeAt);
         } else {
             $this->_class_map[$name] = $cls;
+            $this->_code_at_map[$name] = $codeAt;
         }
     }
 
@@ -203,16 +217,19 @@ class GlobalMap extends AbstractClass
     /**
      * @param $name
      * @param $interface
-     * @throws ParserWarn
+     * @param CodeAt|null $codeAt
+     * @throws ReDefineInterfaceWarn
      */
-    public function setInterface($name, $interface): void
+    public function setInterface($name, $interface, CodeAt $codeAt = null): void
     {
         $name = self::_fixName($name);
         if (isset($this->_interface_map[$name])) {
             $this->_interface_map[$name] = $interface;
-            throw new ParserWarn("interface {$name} Already defined");
+            $this->_code_at_map[$name] = $codeAt;
+            throw new ReDefineInterfaceWarn("interface {$name} Already defined", null, $codeAt);
         } else {
             $this->_interface_map[$name] = $interface;
+            $this->_code_at_map[$name] = $codeAt;
         }
     }
 
@@ -250,16 +267,19 @@ class GlobalMap extends AbstractClass
     /**
      * @param $name
      * @param $var
-     * @throws ParserWarn
+     * @param CodeAt|null $codeAt
+     * @throws ReDefineVarWarn
      */
-    public function setVar($name, $var): void
+    public function setVar($name, $var, CodeAt $codeAt = null): void
     {
         $name = self::_fixName($name);
         if (isset($this->_var_map[$name])) {
             $this->_var_map[$name] = $var;
-            throw new ParserWarn("var {$name} Already defined");
+            $this->_code_at_map[$name] = $codeAt;
+            throw new ReDefineVarWarn("var {$name} Already defined", null, $codeAt);
         } else {
             $this->_var_map[$name] = $var;
+            $this->_code_at_map[$name] = $codeAt;
         }
     }
 

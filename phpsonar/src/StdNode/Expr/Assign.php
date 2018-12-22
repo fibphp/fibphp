@@ -5,6 +5,7 @@ namespace phpsonar\StdNode\Expr;
 
 use PhpParser\Node;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
+use phpsonar\CodeAt;
 use phpsonar\StdNode\Expr;
 use phpsonar\State;
 use phpsonar\Types\VarType;
@@ -40,9 +41,9 @@ class Assign extends Expr
         $expr = $node->expr;
         $global_map = $state->getGlobalMap();
         try {
-            $global_map->setVar($name, new VarType($expr));
+            $global_map->setVar($name, new VarType($expr), CodeAt::createByNode($this->getAnalyzer(), $node));
         } catch (Error $ex) {
-            $state->addWarn($name, $ex);
+            $state->pushWarn($name, $ex);
         }
 
         return AbsTractTypeInferencer::DONT_TRAVERSE_CHILDREN;

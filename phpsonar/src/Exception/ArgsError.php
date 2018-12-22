@@ -13,6 +13,6 @@ use Tiny\Exception\Error;
 class ArgsError extends Error
 {
 
-    protected static $errno = 530;
+    protected static $errno = 630;
 
 }

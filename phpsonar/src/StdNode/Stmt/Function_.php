@@ -5,6 +5,7 @@ namespace phpsonar\StdNode\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
+use phpsonar\CodeAt;
 use phpsonar\StdNode\Stmt;
 use phpsonar\State;
 use phpsonar\Types\FunctionType;
@@ -41,9 +42,9 @@ class Function_ extends Stmt
         $name = $name_->toLowerString();
         $global_map = $state->getGlobalMap();
         try {
-            $global_map->setFunction($name, new FunctionType($node));
+            $global_map->setFunction($name, new FunctionType($node), CodeAt::createByNode($this->getAnalyzer(), $node));
         } catch (Error $ex) {
-            $state->addWarn($name, $ex);
+            $state->pushWarn($name, $ex);
         }
 
         return AbsTractTypeInferencer::DONT_TRAVERSE_CHILDREN;

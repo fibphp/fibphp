@@ -92,6 +92,38 @@ abstract class AbstractTypeVisitor implements TypeVisitor
     }
 
     /**
+     * @return Analyzer
+     */
+    public function getAnalyzer(): ?Analyzer
+    {
+        return $this->_analyzer;
+    }
+
+    /**
+     * @param Analyzer $analyzer
+     */
+    public function setAnalyzer(Analyzer $analyzer): void
+    {
+        $this->_analyzer = $analyzer;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTypeVisitorMap(): array
+    {
+        return $this->_typeVisitorMap;
+    }
+
+    /**
+     * @param array $typeVisitorMap
+     */
+    public function setTypeVisitorMap(array $typeVisitorMap): void
+    {
+        $this->_typeVisitorMap = $typeVisitorMap;
+    }
+
+    /**
      * @param $type
      * @return TypeVisitor
      */

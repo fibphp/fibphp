@@ -8,10 +8,7 @@
 
 namespace phpsonar\Exception;
 
-
-use Tiny\Exception\Error;
-
-class ParserWarn extends Error
+class ReDefineConstWarn extends PhpSonarError
 {
     protected static $errno = 310;
 }

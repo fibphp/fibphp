@@ -11,7 +11,9 @@ namespace phpsonar;
 use PhpParser\Error;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use phpsonar\Exception\CurrentFileError;
 use phpsonar\Exception\ParserError;
+use phpsonar\Exception\PhpSonarError;
 use Tiny\Abstracts\AbstractClass;
 
 class Analyzer extends AbstractClass
@@ -32,24 +34,49 @@ class Analyzer extends AbstractClass
     /**
      * @param $std_root
      * @return null|GlobalMap
+     * @throws CurrentFileError
      * @throws ParserError
      */
     public function analyzeStd($std_root)
     {
-        $fileList = $this->_walkStdFiles($std_root);
+        $fileMap = $this->_walkStdFiles($std_root);
         $inferencer = new StdTypeInferencer($this);
         $state = new State($this);
 
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-        foreach ($fileList as $path => $name) {
+        foreach ($fileMap as $path => $name) {
             $start = microtime(true);
             $ast = $this->loadFile($parser, $path, $name);
             if (empty($ast)) {
                 throw new ParserError("{$name} empty ast");
             }
+            $this->pushCurrentFile($path);
             $inferencer->traverse($ast, $state);
+            $this->popCurrentFile($path);
+
             $used = round(microtime(true) - $start, 3) * 1000;
-            error_log("analyzeStd {$name} done, use:{$used}ms  =>  {$path}");
+            $msg = "analyzeStd {$name} done, use:{$used}ms  =>  {$path}\n";
+            echo date('Y-m-d H:i:s') . " [INFO] " . $msg;
+            $state->walkError(function ($tag, $key, $err) {
+                false && func_get_args();
+                $tag = strtoupper($tag);
+                /** @var PhpSonarError $err */
+                $code_str = '';
+                $codeAt = $err->getCodeAt();
+                if (!empty($codeAt)) {
+                    $code_str = " at " . $codeAt->getFile();
+                    $line = $codeAt->getStartLine();
+                    if ($line >= 0) {
+                        $code_str .= " line:{$line}";
+                    }
+                    $offset = $codeAt->getStartTokenPos();
+                    if ($offset >= 0) {
+                        $code_str .= " offset:{$offset}";
+                    }
+
+                }
+                echo date('Y-m-d H:i:s') . " [$tag] " . $err->getMessage() . $code_str . "\n";
+            });
         }
 
         return $state->getGlobalMap();
@@ -68,6 +95,7 @@ class Analyzer extends AbstractClass
 
     /**
      * @param array $fileList
+     * @throws CurrentFileError
      * @throws ParserError
      */
     public function analyze(array $fileList)
@@ -84,8 +112,10 @@ class Analyzer extends AbstractClass
                 throw new ParserError("{$name} empty ast");
             }
             $global_map_ = clone $global_map;
+            $this->pushCurrentFile($path);
             $state = new State($this, $global_map_);
             $inferencer->traverse($ast, $state);
+            $this->popCurrentFile($path);
             $used = round(microtime(true) - $start, 2) * 1000;
             error_log("analyze {$name} done, use:{$used}ms  =>  {$path}");
         }
@@ -163,6 +193,32 @@ class Analyzer extends AbstractClass
     public function setOptions(array $options): void
     {
         $this->_options = $options;
+    }
+
+    private $_currentFileStack = [];
+
+    public function getCurrentFile()
+    {
+        return !empty($this->_currentFileStack) ? $this->_currentFileStack[count($this->_currentFileStack) - 1] : '';
+    }
+
+    public function pushCurrentFile($file)
+    {
+        $this->_currentFileStack[] = $file;
+    }
+
+    /**
+     * @param string $path
+     * @return mixed|string
+     * @throws CurrentFileError
+     */
+    public function popCurrentFile($path = '')
+    {
+        $_path = !empty($this->_currentFileStack) ? array_pop($this->_currentFileStack) : '';
+        if (!empty($path) && $path != $_path) {
+            throw new CurrentFileError("popCurrentFile but not match {$path} -> {$_path}");
+        }
+        return $_path;
     }
 
 }
