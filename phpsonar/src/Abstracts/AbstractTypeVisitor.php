@@ -42,9 +42,14 @@ abstract class AbstractTypeVisitor implements TypeVisitor
             $name_ = $value->name;
             return join('', $name_->parts);
         } elseif ($value instanceof Expr\Variable) {
-            return $value->name;
+            return '$' . $value->name;
+        } elseif ($value instanceof Expr\ArrayDimFetch) {
+            $var = $value->var;
+            $dim = $value->dim;
+            $dim_ = self::tryExecExpr($dim, $state);
+            return '$' . $var->name . "[{$dim_}]";
         } elseif ($value instanceof String_) {
-            return $value->value;
+            return "\"" . addslashes($value->value) . "\"";
         } elseif ($value instanceof DNumber) {
             return $value->value;
         } elseif ($value instanceof LNumber) {
@@ -57,10 +62,26 @@ abstract class AbstractTypeVisitor implements TypeVisitor
             }, $value->parts));
         } elseif ($value instanceof EncapsedStringPart) {
             return $value->value;
-        } elseif($value instanceof Expr\UnaryMinus){
+        } elseif ($value instanceof Expr\UnaryMinus) {
             return self::tryExecExpr($value->expr, $state);
+        } elseif ($value instanceof Expr\FuncCall) {
+            $name = $value->name;
+            $f_name = join('::', $name->parts);
+            $args = $value->args;
+            $f_args = [];
+            foreach ($args as $arg) {
+                $f_args[] = self::tryExecExpr($arg->value, $state);
+            }
+            return "{$f_name}(" . join(', ', $f_args) . ")";
+        } elseif ($value instanceof Expr\BinaryOp\Concat) {
+            return self::tryExecExpr($value->left, $state) . '`.`' . self::tryExecExpr($value->right, $state);
+        } elseif ($value instanceof Expr\BinaryOp\BitwiseOr) {
+            return self::tryExecExpr($value->left, $state) . '`|`' . self::tryExecExpr($value->right, $state);
+        } elseif ($value instanceof Expr\BinaryOp\BitwiseAnd) {
+            return self::tryExecExpr($value->left, $state) . '`&`' . self::tryExecExpr($value->right, $state);
+        } elseif ($value instanceof Expr\BinaryOp\BitwiseXor) {
+            return self::tryExecExpr($value->left, $state) . '`^`' . self::tryExecExpr($value->right, $state);
         }
-
 
         return 0; // TODO
     }

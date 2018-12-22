@@ -25,6 +25,15 @@ class GlobalMap extends AbstractClass
     ############################    Const    ############################
     #####################################################################
 
+    private static function _fixName($name)
+    {
+        if (substr($name, 0, 1) == '"' && substr($name, -1, 1) == '"') {
+            $name = substr($name, 1, -1);
+            return str_replace("\\\\", "\\", $name);
+        }
+        return $name;
+    }
+
     /**
      * @return array
      */
@@ -58,6 +67,7 @@ class GlobalMap extends AbstractClass
      */
     public function setConst(string $name, $value): void
     {
+        $name = self::_fixName($name);
         if (isset($this->_const_map[$name])) {
             $this->_const_map[$name] = $value;
             throw new ParserWarn("const {$name} Already defined");
@@ -103,6 +113,7 @@ class GlobalMap extends AbstractClass
      */
     public function setFunction($name, $func): void
     {
+        $name = self::_fixName($name);
         if (isset($this->_function_map[$name])) {
             $this->_function_map[$name] = $func;
             throw new ParserWarn("func {$name} Already defined");
@@ -148,6 +159,7 @@ class GlobalMap extends AbstractClass
      */
     public function setClass($name, $cls): void
     {
+        $name = self::_fixName($name);
         if (isset($this->_class_map[$name])) {
             $this->_class_map[$name] = $cls;
             throw new ParserWarn("class {$name} Already defined");
@@ -195,6 +207,7 @@ class GlobalMap extends AbstractClass
      */
     public function setInterface($name, $interface): void
     {
+        $name = self::_fixName($name);
         if (isset($this->_interface_map[$name])) {
             $this->_interface_map[$name] = $interface;
             throw new ParserWarn("interface {$name} Already defined");
@@ -241,6 +254,7 @@ class GlobalMap extends AbstractClass
      */
     public function setVar($name, $var): void
     {
+        $name = self::_fixName($name);
         if (isset($this->_var_map[$name])) {
             $this->_var_map[$name] = $var;
             throw new ParserWarn("var {$name} Already defined");

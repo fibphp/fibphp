@@ -11,16 +11,16 @@ namespace phpsonar;
 
 use PhpParser\Node;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
-use phpsonar\Node\Arg;
-use phpsonar\Node\Const_;
-use phpsonar\Node\Expr;
-use phpsonar\Node\Identifier;
-use phpsonar\Node\Name;
-use phpsonar\Node\NullableType;
-use phpsonar\Node\Param;
-use phpsonar\Node\Scalar;
-use phpsonar\Node\Stmt;
-use phpsonar\Node\VarLikeIdentifier;
+use phpsonar\StdNode\Arg;
+use phpsonar\StdNode\Const_;
+use phpsonar\StdNode\Expr;
+use phpsonar\StdNode\Identifier;
+use phpsonar\StdNode\Name;
+use phpsonar\StdNode\NullableType;
+use phpsonar\StdNode\Param;
+use phpsonar\StdNode\Scalar;
+use phpsonar\StdNode\Stmt;
+use phpsonar\StdNode\VarLikeIdentifier;
 
 class TypeInferencer extends AbsTractTypeInferencer
 {
