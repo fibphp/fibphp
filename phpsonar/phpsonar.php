@@ -47,7 +47,7 @@ function main(array $args = [])
             $app_root = $options['app_root'] ?: $inputDir;
             $composer = \phpsonar\Util::parseComposer($app_root);
 
-            (new MainApp($composer, $options))->start($inputDir, $outputDir, $composer, $options);
+            (new MainApp($composer, $options))->start($inputDir, $outputDir);
             break;
         case '/h':
         case '-h':

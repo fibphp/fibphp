@@ -48,6 +48,16 @@ class Analyzer extends AbstractClass
         return $code_str;
     }
 
+    public static function log($msg, $tag = 'info', $newline = false)
+    {
+        $tag = strtoupper($tag);
+        if ($newline) {
+            echo "\n" . date('Y-m-d H:i:s') . " [{$tag}] " . $msg . "\n";
+        } else {
+            echo date('Y-m-d H:i:s') . " [{$tag}] " . $msg . "\n";
+        }
+    }
+
     /**
      * @param $std_root
      * @return null|GlobalMap
@@ -72,14 +82,13 @@ class Analyzer extends AbstractClass
             $this->popCurrentFile($path);
 
             $used = round(microtime(true) - $start, 3) * 1000;
-            $msg = "analyzeStd {$name} done, use:{$used}ms  =>  {$path}\n";
-            echo date('Y-m-d H:i:s') . " [INFO] " . $msg;
+            self::log("analyzeStd {$name} done, use:{$used}ms  =>  {$path}");
             $state->walkError(function ($tag, $key, $err) {
                 false && func_get_args();
                 $tag = strtoupper($tag);
                 /** @var PhpSonarError $err */
                 $code_str = self::buildCodeAtMsg($err->getCodeAt());
-                echo date('Y-m-d H:i:s') . " [$tag] " . get_class($err) . " " . $err->getMessage() . $code_str . "\n";
+                self::log(get_class($err) . " " . $err->getMessage() . $code_str, $tag);
             });
         }
 
@@ -121,7 +130,14 @@ class Analyzer extends AbstractClass
             $inferencer->traverse($ast, $state);
             $this->popCurrentFile($path);
             $used = round(microtime(true) - $start, 2) * 1000;
-            error_log("analyze {$name} done, use:{$used}ms  =>  {$path}");
+            self::log("analyze {$name} done, use:{$used}ms  =>  {$path}");
+            $state->walkError(function ($tag, $key, $err) {
+                false && func_get_args();
+                $tag = strtoupper($tag);
+                /** @var PhpSonarError $err */
+                $code_str = self::buildCodeAtMsg($err->getCodeAt());
+                self::log(get_class($err) . " " . $err->getMessage() . $code_str, $tag);
+            });
         }
     }
 
@@ -134,12 +150,11 @@ class Analyzer extends AbstractClass
                 $this->_ast_map[$file] = $ast;
             } catch (Error $error) {
                 $this->_ast_map[$file] = null;
-                echo "{$name} Parse error: {$error->getMessage()}\n";
+                $log_msg = "{$name} Parse error: {$error->getMessage()}";
+                error_log($log_msg);
             }
         }
 
-        // $dumper = new NodeDumper;
-        // echo $dumper->dump($ast) . "\n";
         return $this->_ast_map[$file];
     }
 
