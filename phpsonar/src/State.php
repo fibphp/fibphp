@@ -15,6 +15,7 @@ class State extends AbstractClass
     private $_analyzer = null;
     private $_global_map = null;
 
+    private $_cur_namespace = '';
     private $_error_stack = [];
 
     public function __construct(Analyzer $analyzer, GlobalMap $global_map = null)
@@ -87,6 +88,30 @@ class State extends AbstractClass
                 }
             }
         }
+    }
+
+    public function _namespace($name)
+    {
+        if (empty($name) || empty($this->_cur_namespace)) {
+            return $name;
+        }
+        return "{$this->_cur_namespace}\\{$name}";
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurNamespace(): string
+    {
+        return $this->_cur_namespace;
+    }
+
+    /**
+     * @param string $cur_namespace
+     */
+    public function setCurNamespace(string $cur_namespace)
+    {
+        $this->_cur_namespace = $cur_namespace;
     }
 
 }

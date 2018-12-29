@@ -8,9 +8,42 @@
 
 namespace phpsonar\Types;
 
-use phpsonar\Abstracts\AbstractType;
+use PhpParser\Node;
 
-class FunctionType extends AbstractType
+class FunctionType extends MixedType
 {
+
+    protected $_name = '__FUNCTION__';
+
+    /** @var ParamsType $_param */
+    protected $_param = [];
+
+    /** @var ReturnType $_return */
+    protected $_return = null;
+
+
+    public function __construct(Node $node, ParamsType $param, ReturnType $return)
+    {
+        parent::__construct($node);
+        $this->_param = $param;
+        $this->_return = $return;
+    }
+
+    /**
+     * @return ParamsType
+     */
+    public function getParam(): ParamsType
+    {
+        return $this->_param;
+    }
+
+    /**
+     * @return ReturnType
+     */
+    public function getReturn(): ReturnType
+    {
+        return $this->_return;
+    }
+
 
 }

@@ -8,7 +8,7 @@
 
 namespace phpsonar\Exception;
 
-class ReDefineVarWarn extends PhpSonarError
+class ReDefineVarWarn extends ReDefineWarn
 {
-    protected static $errno = 310;
+    protected static $errno = 312;
 }

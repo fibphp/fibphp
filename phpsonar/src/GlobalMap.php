@@ -26,9 +26,15 @@ class GlobalMap extends AbstractClass
     private $_var_map = [];
     private $_code_at_map = [];
 
-    #####################################################################
-    ############################    Const    ############################
-    #####################################################################
+    /**
+     * @param $key
+     * @return null| State
+     */
+    public function tryGetCodeAt($key)
+    {
+        return Util::v($this->_code_at_map, $key, null);
+    }
+
 
     private static function _fixName($name)
     {
@@ -38,6 +44,11 @@ class GlobalMap extends AbstractClass
         }
         return $name;
     }
+
+    #####################################################################
+    ############################    Const    ############################
+    #####################################################################
+
 
     /**
      * @return array
@@ -76,8 +87,7 @@ class GlobalMap extends AbstractClass
         $name = self::_fixName($name);
         if (isset($this->_const_map[$name])) {
             $this->_const_map[$name] = $value;
-            $this->_code_at_map[$name] = $codeAt;
-            throw new ReDefineConstWarn("const {$name} Already defined", null, $codeAt);
+            throw new ReDefineConstWarn("const {$name} Already defined", null, $codeAt, $name);
         } else {
             $this->_const_map[$name] = $value;
             $this->_code_at_map[$name] = $codeAt;
@@ -125,8 +135,7 @@ class GlobalMap extends AbstractClass
         $name = self::_fixName($name);
         if (isset($this->_function_map[$name])) {
             $this->_function_map[$name] = $func;
-            $this->_code_at_map[$name] = $codeAt;
-            throw new ReDefineFuncWarn("func {$name} Already defined", null, $codeAt);
+            throw new ReDefineFuncWarn("func {$name} Already defined", null, $codeAt, $name);
         } else {
             $this->_function_map[$name] = $func;
             $this->_code_at_map[$name] = $codeAt;
@@ -174,8 +183,7 @@ class GlobalMap extends AbstractClass
         $name = self::_fixName($name);
         if (isset($this->_class_map[$name])) {
             $this->_class_map[$name] = $cls;
-            $this->_code_at_map[$name] = $codeAt;
-            throw new ReDefineClassWarn("class {$name} Already defined", null, $codeAt);
+            throw new ReDefineClassWarn("class {$name} Already defined", null, $codeAt, $name);
         } else {
             $this->_class_map[$name] = $cls;
             $this->_code_at_map[$name] = $codeAt;
@@ -225,8 +233,7 @@ class GlobalMap extends AbstractClass
         $name = self::_fixName($name);
         if (isset($this->_interface_map[$name])) {
             $this->_interface_map[$name] = $interface;
-            $this->_code_at_map[$name] = $codeAt;
-            throw new ReDefineInterfaceWarn("interface {$name} Already defined", null, $codeAt);
+            throw new ReDefineInterfaceWarn("interface {$name} Already defined", null, $codeAt, $name);
         } else {
             $this->_interface_map[$name] = $interface;
             $this->_code_at_map[$name] = $codeAt;
@@ -275,8 +282,7 @@ class GlobalMap extends AbstractClass
         $name = self::_fixName($name);
         if (isset($this->_var_map[$name])) {
             $this->_var_map[$name] = $var;
-            $this->_code_at_map[$name] = $codeAt;
-            throw new ReDefineVarWarn("var {$name} Already defined", null, $codeAt);
+            throw new ReDefineVarWarn("var {$name} Already defined", null, $codeAt, $name);
         } else {
             $this->_var_map[$name] = $var;
             $this->_code_at_map[$name] = $codeAt;

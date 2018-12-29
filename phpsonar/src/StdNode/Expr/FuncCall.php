@@ -6,6 +6,7 @@ namespace phpsonar\StdNode\Expr;
 use PhpParser\Node;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
 use phpsonar\CodeAt;
+use phpsonar\Exception\ReDefineWarn;
 use phpsonar\StdNode\Expr;
 use phpsonar\State;
 use Tiny\Exception\Error;
@@ -43,10 +44,13 @@ class FuncCall extends Expr
             $name = self::tryExecExpr($_name, $state);
             $value = $value_->value;
             $global_map = $state->getGlobalMap();
+            $const_name = $state->_namespace($name);
             try {
-                $global_map->setConst($name, self::tryExecExpr($value, $state), CodeAt::createByNode($this->getAnalyzer(), $node));
+                $global_map->setConst($const_name, self::tryExecExpr($value, $state), CodeAt::createByNode($this->getAnalyzer(), $node));
+            } catch (ReDefineWarn $ex) {
+                $state->pushWarn($ex->getName(), $ex);
             } catch (Error $ex) {
-                $state->pushWarn($name, $ex);
+                $state->pushError($const_name, $ex);
             }
         }
 

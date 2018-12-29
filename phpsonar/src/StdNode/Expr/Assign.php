@@ -6,9 +6,10 @@ namespace phpsonar\StdNode\Expr;
 use PhpParser\Node;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
 use phpsonar\CodeAt;
-use phpsonar\StdNode\Expr;
+use phpsonar\Exception\ReDefineWarn;
 use phpsonar\State;
-use phpsonar\Types\VarType;
+use phpsonar\StdNode\Expr;
+use phpsonar\Types\MixedType;
 use Tiny\Exception\Error;
 
 class Assign extends Expr
@@ -40,10 +41,13 @@ class Assign extends Expr
         /** @var \PhpParser\Node\Expr $expr */
         $expr = $node->expr;
         $global_map = $state->getGlobalMap();
+        $var_name = $state->_namespace($name);
         try {
-            $global_map->setVar($name, new VarType($expr), CodeAt::createByNode($this->getAnalyzer(), $node));
+            $global_map->setVar($var_name, new MixedType($expr), CodeAt::createByNode($this->getAnalyzer(), $node));
+        } catch (ReDefineWarn $ex) {
+            $state->pushWarn($ex->getName(), $ex);
         } catch (Error $ex) {
-            $state->pushWarn($name, $ex);
+            $state->pushError($var_name, $ex);
         }
 
         return AbsTractTypeInferencer::DONT_TRAVERSE_CHILDREN;

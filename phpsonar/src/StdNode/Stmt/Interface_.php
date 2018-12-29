@@ -6,8 +6,9 @@ use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
 use phpsonar\CodeAt;
-use phpsonar\StdNode\Stmt;
+use phpsonar\Exception\ReDefineWarn;
 use phpsonar\State;
+use phpsonar\StdNode\Stmt;
 use phpsonar\Types\InterfaceType;
 use Tiny\Exception\Error;
 
@@ -39,10 +40,13 @@ class Interface_ extends Stmt
         $name_ = $node->name;
         $name = $name_->toString();
         $global_map = $state->getGlobalMap();
+        $interface_name = $state->_namespace($name);
         try {
-            $global_map->setInterface($name, new InterfaceType($node), CodeAt::createByNode($this->getAnalyzer(), $node));
+            $global_map->setInterface($interface_name, new InterfaceType($node), CodeAt::createByNode($this->getAnalyzer(), $node));
+        } catch (ReDefineWarn $ex) {
+            $state->pushWarn($ex->getName(), $ex);
         } catch (Error $ex) {
-            $state->pushWarn($name, $ex);
+            $state->pushError($interface_name, $ex);
         }
 
         return AbsTractTypeInferencer::DONT_TRAVERSE_CHILDREN;

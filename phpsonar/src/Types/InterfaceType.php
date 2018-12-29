@@ -9,9 +9,10 @@
 namespace phpsonar\Types;
 
 
-use phpsonar\Abstracts\AbstractType;
-
-class InterfaceType extends AbstractType
+class InterfaceType extends MixedType
 {
+
+    protected $_name = '__INTERFACE__';
+
 
 }

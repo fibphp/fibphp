@@ -45,6 +45,7 @@ class StdTypeInferencer extends AbsTractTypeInferencer
             'Stmt_Const' => new Stmt\Const_($analyzer),
             'Stmt_Class' => new Stmt\Class_($analyzer),
             'Stmt_Interface' => new Stmt\Interface_($analyzer),
+            'Stmt_Namespace' => new Stmt\Namespace_($analyzer),
         ]));
         $this->registerTypeVisitor('VarLikeIdentifier', new VarLikeIdentifier($analyzer, $visitorMap));
     }

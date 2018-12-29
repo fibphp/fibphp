@@ -14,6 +14,7 @@ use PhpParser\ParserFactory;
 use phpsonar\Exception\CurrentFileError;
 use phpsonar\Exception\ParserError;
 use phpsonar\Exception\PhpSonarError;
+use phpsonar\Exception\ReDefineWarn;
 use Tiny\Abstracts\AbstractClass;
 
 class Analyzer extends AbstractClass
@@ -23,6 +24,8 @@ class Analyzer extends AbstractClass
     private $_options = [];
 
     private $_ast_map = [];
+
+    public static $log_level = 'WARN';
 
     public function __construct(string $rootPath, array $composer = [], array $options = [])
     {
@@ -35,27 +38,70 @@ class Analyzer extends AbstractClass
     {
         $code_str = '';
         if (!empty($codeAt)) {
-            $code_str = " at " . $codeAt->getFile();
+            $code_str = " in " . $codeAt->getFile();
             $line = $codeAt->getStartLine();
             if ($line >= 0) {
-                $code_str .= " line:{$line}";
+                $code_str .= " on line {$line}";
             }
             $offset = $codeAt->getStartTokenPos();
             if ($offset >= 0) {
-                $code_str .= " offset:{$offset}";
+                $code_str .= " offset {$offset}";
             }
         }
         return $code_str;
     }
 
-    public static function log($msg, $tag = 'info', $newline = false)
+    const LOG_LEVEL_DICT = [
+        'ALL' => 0,
+        'DEBUG' => 10,
+        'INFO' => 20,
+        'WARN' => 30,
+        'ERROR' => 40,
+        'FATAL' => 50,
+        'OFF' => 60,
+    ];
+
+    public static function _log($msg, $tag = 'info', $newline = false)
     {
         $tag = strtoupper($tag);
-        if ($newline) {
-            echo "\n" . date('Y-m-d H:i:s') . " [{$tag}] " . $msg . "\n";
-        } else {
-            echo date('Y-m-d H:i:s') . " [{$tag}] " . $msg . "\n";
+        $level = isset(self::LOG_LEVEL_DICT[$tag]) ? self::LOG_LEVEL_DICT[$tag] : -1;
+        $level = ($level >= 10 && $level <= 50) ? $level : -10;
+        $level_need = isset(self::LOG_LEVEL_DICT[self::$log_level]) ? self::LOG_LEVEL_DICT[self::$log_level] : 30;  //未指定日志级别时只记录WARN及以上信息
+
+        $msg_log = '';
+        if ($level < $level_need) {  //级别低于当前级别直接返回空字符串
+            return $msg_log;
         }
+
+        if ($newline) {
+            $msg_log = "\n" . date('Y-m-d H:i:s') . " [{$tag}] " . $msg . "\n";
+        } else {
+            $msg_log = date('Y-m-d H:i:s') . " [{$tag}] " . $msg . "\n";
+        }
+        echo $msg_log;
+        return $msg_log;
+    }
+
+    public static function _logState(State $state)
+    {
+        $state->walkError(function ($tag, $key, $err) use ($state) {
+            false && func_get_args();
+            $tag = strtoupper($tag);
+            /** @var PhpSonarError $err */
+            $code_str = self::buildCodeAtMsg($err->getCodeAt());
+            $log_msg = get_class($err) . " " . $err->getMessage() . $code_str;
+            if ($err instanceof ReDefineWarn) {
+                $global_map = $state->getGlobalMap();
+                if (!empty($global_map)) {
+                    $code_at = $global_map->tryGetCodeAt($key);
+                    if (!empty($code_at)) {
+                        $code_msg = self::buildCodeAtMsg($code_at);
+                        $log_msg .= "\n\t\t\t\t\t\t\t {$key} first define{$code_msg}";
+                    }
+                }
+            }
+            self::_log($log_msg, $tag);
+        });
     }
 
     /**
@@ -80,16 +126,11 @@ class Analyzer extends AbstractClass
             $this->pushCurrentFile($path);
             $inferencer->traverse($ast, $state);
             $this->popCurrentFile($path);
+            $state->setCurNamespace('');
 
             $used = round(microtime(true) - $start, 3) * 1000;
-            self::log("analyzeStd {$name} done, use:{$used}ms  =>  {$path}");
-            $state->walkError(function ($tag, $key, $err) {
-                false && func_get_args();
-                $tag = strtoupper($tag);
-                /** @var PhpSonarError $err */
-                $code_str = self::buildCodeAtMsg($err->getCodeAt());
-                self::log(get_class($err) . " " . $err->getMessage() . $code_str, $tag);
-            });
+            self::_log("analyzeStd {$name} done, use:{$used}ms  =>  {$path}");
+            self::_logState($state);
         }
 
         return $state->getGlobalMap();
@@ -129,15 +170,11 @@ class Analyzer extends AbstractClass
             $state = new State($this, $global_map_);
             $inferencer->traverse($ast, $state);
             $this->popCurrentFile($path);
+            $state->setCurNamespace('');
+
             $used = round(microtime(true) - $start, 2) * 1000;
-            self::log("analyze {$name} done, use:{$used}ms  =>  {$path}");
-            $state->walkError(function ($tag, $key, $err) {
-                false && func_get_args();
-                $tag = strtoupper($tag);
-                /** @var PhpSonarError $err */
-                $code_str = self::buildCodeAtMsg($err->getCodeAt());
-                self::log(get_class($err) . " " . $err->getMessage() . $code_str, $tag);
-            });
+            self::_log("analyze {$name} done, use:{$used}ms  =>  {$path}");
+            self::_logState($state);
         }
     }
 
@@ -150,8 +187,7 @@ class Analyzer extends AbstractClass
                 $this->_ast_map[$file] = $ast;
             } catch (Error $error) {
                 $this->_ast_map[$file] = null;
-                $log_msg = "{$name} Parse error: {$error->getMessage()}";
-                error_log($log_msg);
+                error_log("{$name} Parse error: {$error->getMessage()}");
             }
         }
 
