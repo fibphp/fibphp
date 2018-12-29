@@ -21,13 +21,16 @@ class FunctionType extends MixedType
     /** @var ReturnType $_return */
     protected $_return = null;
 
-
-    public function __construct(Node $node, ParamsType $param, ReturnType $return)
+    public function __construct(Node $node, string $name = '', ParamsType $param = null, ReturnType $return = null)
     {
-        parent::__construct($node);
+        parent::__construct($node, $name);
         $this->_param = $param;
         $this->_return = $return;
     }
+
+    ##########################################################################
+    ##########################  getter and setter  ###########################
+    ##########################################################################
 
     /**
      * @return ParamsType

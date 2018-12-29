@@ -8,11 +8,12 @@
 
 namespace phpsonar\Types;
 
+use PhpParser\Node;
+
 class ClassType extends MixedType
 {
 
     protected $_name = '__CLASS__';
-
 
     protected $_is_abstract = false;
 
@@ -25,9 +26,26 @@ class ClassType extends MixedType
     /** @var TraitType[] $_traits */
     protected $_traits = [];
 
+    /** @var PropertyDict $_property */
+    protected $_property = null;
+
     /** @var MethodType[] $_methods */
     protected $_methods = [];
 
+    public function __construct(Node $node, string $name = '', bool $is_abstract = false, ClassType $parent = null, array $implements = [], array $traits = [], PropertyDict $property = null, array $methods = [])
+    {
+        parent::__construct($node, $name);
+        $this->_is_abstract = $is_abstract;
+        $this->_parent = $parent;
+        $this->_implements = $implements;
+        $this->_traits = $traits;
+        $this->_property = $property;
+        $this->_methods = $methods;
+    }
+
+    ##########################################################################
+    ##########################  getter and setter  ###########################
+    ##########################################################################
     
     /**
      * @return bool
