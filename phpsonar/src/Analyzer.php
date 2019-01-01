@@ -154,9 +154,10 @@ class Analyzer extends AbstractClass
      */
     public function analyze(array $fileList)
     {
-        $global_map = !empty($this->_options['std_root']) ? $this->analyzeStd($this->_options['std_root']) : new GlobalMap();
+        $global_map =  new GlobalMap();
+        // $global_map = !empty($this->_options['std_root']) ? $this->analyzeStd($this->_options['std_root']) : $global_map;
 
-        $inferencer = new TypeInferencer($this);
+        $inferencer = new SonarTypeInferencer($this);
 
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
         foreach ($fileList as $path => $name) {
