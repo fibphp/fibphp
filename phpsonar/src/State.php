@@ -114,4 +114,9 @@ class State extends AbstractClass
         $this->_cur_namespace = $cur_namespace;
     }
 
+    public function checkIdentifier(string $type_str)
+    {
+        return true;
+    }
+
 }

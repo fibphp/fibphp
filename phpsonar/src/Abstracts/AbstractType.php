@@ -27,4 +27,5 @@ abstract class AbstractType
     {
         return $this->_node;
     }
+
 }

@@ -8,9 +8,9 @@
 
 namespace phpsonar\Types\Wrapper;
 
-use phpsonar\Abstracts\AbstractType;
+use phpsonar\Types\MixedType;
 
-class VoidType extends AbstractType
+class VoidType extends MixedType
 {
 
     protected $_name = '__VOID__';

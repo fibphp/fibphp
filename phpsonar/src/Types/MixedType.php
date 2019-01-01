@@ -16,7 +16,7 @@ class MixedType extends AbstractType
 
     protected $_name = 'mixed';
 
-    public function __construct(Node $node, string $name = '')
+    public function __construct(Node $node = null, string $name = '')
     {
         parent::__construct($node);
         $this->_name = !empty($name) ? $name : $this->_name;

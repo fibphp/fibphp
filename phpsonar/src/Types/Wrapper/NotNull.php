@@ -12,6 +12,6 @@ namespace phpsonar\Types\Wrapper;
 class NotNull extends AbstractWrapper
 {
 
-    protected $_name = '__NOTNULL__';
+    protected $_name = '__NOT_NULL__';
 
 }

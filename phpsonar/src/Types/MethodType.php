@@ -19,7 +19,7 @@ class MethodType extends FunctionType
     /** @var ClassType $_this */
     protected $_this = null;
 
-    public function __construct(Node $node, string $name = '', ParamsType $param = null, ReturnType $return = null, ClassType $_this = null)
+    public function __construct(Node $node, string $name = '', ParamsTuple $param = null, ReturnType $return = null, ClassType $_this = null)
     {
         parent::__construct($node, $name, $param, $return);
         $this->_this = $_this;

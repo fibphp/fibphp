@@ -12,6 +12,6 @@ namespace phpsonar\Types\Wrapper;
 class Nullable extends AbstractWrapper
 {
 
-    protected $_name = '__NULLABLE__';
+    protected $_name = '__NULL_ABLE__';
 
 }

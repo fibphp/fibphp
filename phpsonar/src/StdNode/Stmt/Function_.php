@@ -17,6 +17,7 @@ use Tiny\Exception\Error;
  */
 class Function_ extends Stmt
 {
+
     /**
      * Called when entering a node.
      *
@@ -43,8 +44,14 @@ class Function_ extends Stmt
         $name = $name_->toLowerString();
         $global_map = $state->getGlobalMap();
         $function_name = $state->_namespace($name);
+        $comments = $node->getAttribute('comments', []);
+        $comment = !empty($comments) ? $comments[count($comments) - 1] : null;
         try {
-            $global_map->setFunction($function_name, new FunctionType($node), CodeAt::createByNode($this->getAnalyzer(), $node));
+            $param = self::tryBuildParamsTuple($node, $node->getParams(), $state);
+            $return = self::tryBuildReturnType($node, $node->getReturnType(), $node->returnsByRef(), $state);
+            list($param, $return) = self::tryFixParamAndReturnByComment($node, $param, $return, $comment, $state);
+            $function = new FunctionType($node, $function_name, $param, $return);
+            $global_map->setFunction($function_name, $function, CodeAt::createByNode($this->getAnalyzer(), $node));
         } catch (ReDefineWarn $ex) {
             $state->pushWarn($ex->getName(), $ex);
         } catch (Error $ex) {

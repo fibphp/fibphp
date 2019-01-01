@@ -11,6 +11,6 @@ namespace phpsonar\Types\Wrapper;
 class ListOf extends AbstractWrapper
 {
 
-    protected $_name = '__LISTOF__';
+    protected $_name = '__LIST_OF__';
 
 }

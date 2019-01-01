@@ -12,7 +12,7 @@ namespace phpsonar\Types;
 use PhpParser\Node;
 use phpsonar\Exception\PhpSonarError;
 
-class ParamsType extends MixedType
+class ParamsTuple extends MixedType
 {
 
     protected $_name = '__PARAMS__';
@@ -44,15 +44,50 @@ class ParamsType extends MixedType
         $this->_variable_arg_list = $variable_arg_list;
     }
 
-    public function addParam(string $name, MixedType $type)
+    /**
+     * @param string $name
+     * @param MixedType $type
+     * @param bool $byRef
+     * @param bool $variadic
+     * @param bool $isOptional
+     * @param null $default
+     * @param bool $isTypeHit
+     * @throws PhpSonarError
+     */
+    public function addParam(string $name, MixedType $type, $byRef = false, $variadic = false, $isOptional = false, $default = null, $isTypeHit = false)
     {
         if (empty($name) || empty($type)) {
             throw new PhpSonarError("错误的参数");
         }
         $this->_args[] = $name;
-        $this->_params_map[$name] = $type;
+        $this->_params_map[$name] = [
+            'type' => $type,
+            'byRef' => $byRef,
+            'variadic' => $variadic,
+            'isOptional' => $isOptional,
+            'default' => $default,
+            'isTypeHit' => $isTypeHit,
+        ];
     }
-    
+
+    /**
+     * @param string $name
+     * @param MixedType $type
+     * @throws PhpSonarError
+     */
+    public function setParam(string $name, MixedType $type)
+    {
+        if (empty($name) || empty($type) || empty($this->_params_map[$name])) {
+            throw new PhpSonarError("错误的参数");
+        }
+        $this->_params_map[$name]['type'] = $type;
+    }
+
+    public function getParam(string $name)
+    {
+        return !empty($this->_params_map[$name]) ? $this->_params_map[$name] : [];
+    }
+
     ##########################################################################
     ##########################  getter and setter  ###########################
     ##########################################################################
