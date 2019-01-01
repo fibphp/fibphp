@@ -25,7 +25,7 @@ class Analyzer extends AbstractClass
 
     private $_ast_map = [];
 
-    public static $log_level = 'WARN';
+    public static $log_level = 'INFO';
 
     public function __construct(string $rootPath, array $composer = [], array $options = [])
     {
