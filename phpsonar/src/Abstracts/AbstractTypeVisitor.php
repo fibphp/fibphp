@@ -332,7 +332,7 @@ abstract class AbstractTypeVisitor implements TypeVisitor
         } elseif ($value instanceof Expr\ArrayDimFetch) {
             $var = $value->var;
             $dim = $value->dim;
-            $dim_ = self::tryExecExpr($dim, $state);
+            $dim_ = !empty($dim) ? self::tryExecExpr($dim, $state) : '';
             return '$' . $var->name . "[{$dim_}]";
         } elseif ($value instanceof String_) {
             return "\"" . addslashes($value->value) . "\"";
