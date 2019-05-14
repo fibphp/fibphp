@@ -1,30 +1,32 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
- * Date: 2018\12\18 0018
- * Time: 23:59
+ * User: kongl
+ * Date: 2019/4/10 0010
+ * Time: 16:35
  */
 
-namespace phpsonar;
+namespace phpsonar\Abstracts;
 
 
+use phpsonar\CodeAt;
 use phpsonar\Exception\ReDefineClassWarn;
 use phpsonar\Exception\ReDefineConstWarn;
 use phpsonar\Exception\ReDefineFuncWarn;
 use phpsonar\Exception\ReDefineInterfaceWarn;
 use phpsonar\Exception\ReDefineVarWarn;
+use phpsonar\State;
+use phpsonar\Util;
 use Tiny\Abstracts\AbstractClass;
 
-class GlobalMap extends AbstractClass
+class AbstractScope extends AbstractClass
 {
-
-    private $_const_map = [];
-    private $_function_map = [];
-    private $_class_map = [];
-    private $_interface_map = [];
-    private $_var_map = [];
-    private $_code_at_map = [];
+    protected $_const_map = [];
+    protected $_function_map = [];
+    protected $_class_map = [];
+    protected $_interface_map = [];
+    protected $_var_map = [];
+    protected $_code_at_map = [];
 
     /**
      * @param $key
@@ -35,8 +37,7 @@ class GlobalMap extends AbstractClass
         return Util::v($this->_code_at_map, $key, null);
     }
 
-
-    private static function _fixName($name)
+    protected static function _fixName($name)
     {
         if (substr($name, 0, 1) == '"' && substr($name, -1, 1) == '"') {
             $name = substr($name, 1, -1);
@@ -288,5 +289,6 @@ class GlobalMap extends AbstractClass
             $this->_code_at_map[$name] = $codeAt;
         }
     }
+
 
 }

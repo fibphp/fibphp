@@ -29,7 +29,7 @@ function test3($x)
     if($x > 1){
 	    $a = 3;
     } else {
-	    if(x < 10){
+	    if($x < 10){
 		    $a = true;
 	    } else {
 		    $a = "hi";

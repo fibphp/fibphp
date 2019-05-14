@@ -7,8 +7,8 @@ use PhpParser\Node;
 use phpsonar\Abstracts\AbsTractTypeInferencer;
 use phpsonar\CodeAt;
 use phpsonar\Exception\ReDefineWarn;
-use phpsonar\State;
 use phpsonar\SonarNode\Expr;
+use phpsonar\State;
 use phpsonar\Types\MixedType;
 use Tiny\Exception\Error;
 
@@ -40,10 +40,10 @@ class Assign extends Expr
         $name = self::tryExecExpr($var, $state);
         /** @var \PhpParser\Node\Expr $expr */
         $expr = $node->expr;
-        $global_map = $state->getGlobalMap();
+        $cur_scope = $state->getCurScope();
         $var_name = $state->_namespace($name);
         try {
-            $global_map->setVar($var_name, new MixedType($expr), CodeAt::createByNode($this->getAnalyzer(), $node));
+            $cur_scope->setVar($var_name, new MixedType($expr), CodeAt::createByNode($this->getAnalyzer(), $node));
         } catch (ReDefineWarn $ex) {
             $state->pushWarn($ex->getName(), $ex);
         } catch (Error $ex) {

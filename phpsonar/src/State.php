@@ -8,37 +8,56 @@
 
 namespace phpsonar;
 
+use phpsonar\Abstracts\AbstractScope;
 use Tiny\Abstracts\AbstractClass;
 
 class State extends AbstractClass
 {
     private $_analyzer = null;
-    private $_global_map = null;
+    private $_global_scope = null;
+    private $_cur_scope = null;
 
     private $_cur_namespace = '';
     private $_error_stack = [];
 
-    public function __construct(Analyzer $analyzer, GlobalMap $global_map = null)
+    public function __construct(Analyzer $analyzer, GlobalScope $global_scope = null)
     {
-        $global_map = empty($global_map) ? (new GlobalMap()) : $global_map;
+        $global_scope = empty($global_scope) ? (new GlobalScope()) : $global_scope;
         $this->_analyzer = $analyzer;
-        $this->_global_map = $global_map;
+        $this->_global_scope = $global_scope;
+        $this->_cur_scope = $global_scope;
     }
 
     /**
-     * @return null|GlobalMap
+     * @return null|GlobalScope
      */
-    public function getGlobalMap(): ?GlobalMap
+    public function getGlobalScope(): ?GlobalScope
     {
-        return $this->_global_map;
+        return $this->_global_scope;
     }
 
     /**
-     * @param null|GlobalMap $global_map
+     * @param null|GlobalScope $global_map
      */
-    public function setGlobalMap(?GlobalMap $global_map): void
+    public function setGlobalScope(?GlobalScope $global_map): void
     {
-        $this->_global_map = $global_map;
+        $this->_global_scope = $global_map;
+    }
+
+    /**
+     * @return null|AbstractScope
+     */
+    public function getCurScope(): ?AbstractScope
+    {
+        return $this->_cur_scope;
+    }
+
+    /**
+     * @param null|AbstractScope $cur_map
+     */
+    public function setCurScope(?AbstractScope $cur_map): void
+    {
+        $this->_cur_scope = $cur_map;
     }
 
     ############################################################
@@ -116,6 +135,7 @@ class State extends AbstractClass
 
     public function checkIdentifier(string $type_str)
     {
+        false && func_get_args();
         return true;
     }
 

@@ -34,7 +34,7 @@ class Const_ extends Stmt
      */
     public function enterNode(Node $node, State $state)
     {
-        $global_map = $state->getGlobalMap();
+        $global_map = $state->getGlobalScope();
 
         /** @var \PhpParser\Node\Stmt\Const_ $node */
         /** @var Identifier $name_ */

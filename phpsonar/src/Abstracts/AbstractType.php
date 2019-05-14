@@ -10,6 +10,10 @@ namespace phpsonar\Abstracts;
 
 
 use PhpParser\Node;
+use phpsonar\Types\BaseTypes\FloatType;
+use phpsonar\Types\BaseTypes\NumberType;
+use phpsonar\Types\BaseTypes\StringType;
+use phpsonar\Types\MixedType;
 
 abstract class AbstractType
 {
@@ -26,6 +30,18 @@ abstract class AbstractType
     public function getNode()
     {
         return $this->_node;
+    }
+
+    public static function judgeType(Node $node){
+        if($node instanceof Node\Scalar\LNumber){
+            return new NumberType($node);
+        } elseif( $node instanceof Node\Scalar\DNumber){
+            return new FloatType($node);
+        } elseif($node instanceof Node\Scalar\String_){
+            return new StringType($node);
+        }
+
+        return new MixedType($node);
     }
 
 }

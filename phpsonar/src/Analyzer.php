@@ -24,6 +24,7 @@ class Analyzer extends AbstractClass
     private $_options = [];
 
     private $_ast_map = [];
+    private $_state_map = [];
 
     public static $log_level = 'INFO';
 
@@ -91,7 +92,7 @@ class Analyzer extends AbstractClass
             $code_str = self::buildCodeAtMsg($err->getCodeAt());
             $log_msg = get_class($err) . " " . $err->getMessage() . $code_str;
             if ($err instanceof ReDefineWarn) {
-                $global_map = $state->getGlobalMap();
+                $global_map = $state->getGlobalScope();
                 if (!empty($global_map)) {
                     $code_at = $global_map->tryGetCodeAt($key);
                     if (!empty($code_at)) {
@@ -106,7 +107,7 @@ class Analyzer extends AbstractClass
 
     /**
      * @param $std_root
-     * @return null|GlobalMap
+     * @return null|GlobalScope
      * @throws CurrentFileError
      * @throws ParserError
      */
@@ -133,7 +134,7 @@ class Analyzer extends AbstractClass
             self::_logState($state);
         }
 
-        return $state->getGlobalMap();
+        return $state->getGlobalScope();
     }
 
     private function _walkStdFiles(string $rootPath)
@@ -154,21 +155,25 @@ class Analyzer extends AbstractClass
      */
     public function analyze(array $fileList)
     {
-        $global_map =  new GlobalMap();
-        // $global_map = !empty($this->_options['std_root']) ? $this->analyzeStd($this->_options['std_root']) : $global_map;
+        $global_scope = new GlobalScope();
+        // $global_scope = !empty($this->_options['std_root']) ? $this->analyzeStd($this->_options['std_root']) : $global_scope;
 
         $inferencer = new SonarTypeInferencer($this);
 
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        // 单个文件 相当于每个 入口  进行单独分析
+
         foreach ($fileList as $path => $name) {
             $start = microtime(true);
             $ast = $this->loadFile($parser, $path, $name);
             if (empty($ast)) {
                 throw new ParserError("{$name} empty ast");
             }
-            $global_map_ = clone $global_map;
+            $global_scope_ = clone $global_scope;
             $this->pushCurrentFile($path);
-            $state = new State($this, $global_map_);
+            $state = new State($this, $global_scope_);
+            $this->saveState($path, $state);
+
             $inferencer->traverse($ast, $state);
             $this->popCurrentFile($path);
             $state->setCurNamespace('');
@@ -177,6 +182,20 @@ class Analyzer extends AbstractClass
             self::_log("analyze {$name} done, use:{$used}ms  =>  {$path}");
             self::_logState($state);
         }
+    }
+
+    public function saveState($path, State $state)
+    {
+        $this->_state_map[$path] = $state;
+    }
+
+    public function loadState($path)
+    {
+        if (!empty($this->_state_map[$path])) {
+            return $this->_state_map[$path];
+        }
+
+        return null;
     }
 
     public function loadFile(Parser $parser, $file, $name)

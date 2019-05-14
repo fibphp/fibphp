@@ -42,7 +42,7 @@ class Function_ extends Stmt
         /** @var Identifier $name_ */
         $name_ = $node->name;
         $name = $name_->toLowerString();
-        $global_map = $state->getGlobalMap();
+        $global_map = $state->getGlobalScope();
         $function_name = $state->_namespace($name);
         $comments = $node->getAttribute('comments', []);
         $comment = !empty($comments) ? $comments[count($comments) - 1] : null;

@@ -39,7 +39,7 @@ class Class_ extends Stmt
         /** @var Identifier $name_ */
         $name_ = $node->name;
         $name = $name_->toString();
-        $global_map = $state->getGlobalMap();
+        $global_map = $state->getGlobalScope();
         $class_name = $state->_namespace($name);
         try {
             $global_map->setClass($class_name, new ClassType($node), CodeAt::createByNode($this->getAnalyzer(), $node));

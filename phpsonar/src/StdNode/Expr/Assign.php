@@ -40,7 +40,7 @@ class Assign extends Expr
         $name = self::tryExecExpr($var, $state);
         /** @var \PhpParser\Node\Expr $expr */
         $expr = $node->expr;
-        $global_map = $state->getGlobalMap();
+        $global_map = $state->getGlobalScope();
         $var_name = $state->_namespace($name);
         try {
             $global_map->setVar($var_name, new MixedType($expr), CodeAt::createByNode($this->getAnalyzer(), $node));

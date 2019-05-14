@@ -43,7 +43,7 @@ class FuncCall extends Expr
             $_name = $name_->value;
             $name = self::tryExecExpr($_name, $state);
             $value = $value_->value;
-            $global_map = $state->getGlobalMap();
+            $global_map = $state->getGlobalScope();
             $const_name = $state->_namespace($name);
             try {
                 $global_map->setConst($const_name, self::tryExecExpr($value, $state), CodeAt::createByNode($this->getAnalyzer(), $node));

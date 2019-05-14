@@ -39,7 +39,7 @@ class Interface_ extends Stmt
         /** @var Identifier $name_ */
         $name_ = $node->name;
         $name = $name_->toString();
-        $global_map = $state->getGlobalMap();
+        $global_map = $state->getGlobalScope();
         $interface_name = $state->_namespace($name);
         try {
             $global_map->setInterface($interface_name, new InterfaceType($node), CodeAt::createByNode($this->getAnalyzer(), $node));

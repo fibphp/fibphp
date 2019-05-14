@@ -41,7 +41,7 @@ function main(array $args = [])
     $_cmd_ = !empty($args[1]) ? trim($args[1]) : 'unknown';
     switch ($_cmd_) {
         case 'build':
-            $inputDir = !empty($args[2]) ? trim($args[2]) : ($curpwd . DIRECTORY_SEPARATOR);
+            $inputDir = !empty($args[2]) ? trim($args[2]) : ($curpwd . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR);
             $outputDir = !empty($args[3]) ? trim($args[3]) : ($curpwd . DIRECTORY_SEPARATOR . 'out' . DIRECTORY_SEPARATOR);
 
             $app_root = $options['app_root'] ?: $inputDir;
