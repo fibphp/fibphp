@@ -111,7 +111,7 @@ class Env
         }
         $idx += 1;
         $char = $this->buf[$idx];
-        if (!empty(self::escaped[$char])) {
+        if (isset(self::escaped[$char])) {
             $char = self::escaped[$char];
             $val = MainApp::$ord[$char];
             return $idx + 1;
@@ -123,6 +123,7 @@ class Env
             while (isset(MainApp::$isxdigit[$char])) {
                 $tmp = $tmp * 16 + MainApp::$isxdigit[$char];
                 $idx += 1;
+                $char = $this->buf[$idx];
             }
             $val = $tmp;
             return $idx;
@@ -204,7 +205,7 @@ class Env
         }
 
         $name = substr($this->buf, $idx, $len);
-        $ty = !empty(MainApp::keywords[$name]) ? MainApp::keywords[$name] : MainApp::TK_IDENT;
+        $ty = isset(MainApp::keywords[$name]) ? MainApp::keywords[$name] : MainApp::TK_IDENT;
         $t = $this->add($ty, $idx);
         $t->name = $name;
         $t->end = $idx + $len;
@@ -305,6 +306,7 @@ class Env
             }
             // New line (preprocessor-only token)
             $char = $this->buf[$idx];
+
             if ($char == "\n") {
                 $t = $this->add(13, $idx);
                 $idx++;
@@ -339,7 +341,8 @@ class Env
                 continue;
             }
 
-            $char_ = $this->buf[$idx + 1];
+            $idx_ = $idx + 1;
+            $char_ = $idx_ < $ll ? $this->buf[$idx_] : '';
             $symbol = $char . $char_;
             if (isset(MainApp::symbols_2[$symbol])) {
                 $ty = MainApp::symbols_2[$symbol];
@@ -348,7 +351,9 @@ class Env
                 $t->end = $idx;
                 continue;
             }
-            $char__ = $this->buf[$idx + 2];
+
+            $idx_ = $idx + 2;
+            $char__ = $idx_ < $ll ? $this->buf[$idx_] : '';
             $symbol = $char . $char_ . $char__;
             if (isset(MainApp::symbols_3[$symbol])) {
                 $ty = MainApp::symbols_3[$symbol];
