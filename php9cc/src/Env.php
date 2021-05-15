@@ -249,6 +249,7 @@ class Env
             $char = $this->buf[$idx];
         }
 
+        $t->val = $tmp;
         $t->end = $idx;
         return $idx;
     }
@@ -265,6 +266,7 @@ class Env
             $char = $this->buf[$idx];
         }
 
+        $t->val = $tmp;
         $t->end = $idx;
         return $idx;
     }

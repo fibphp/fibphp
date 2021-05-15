@@ -17,6 +17,7 @@
     }
   ],
   "require": {
+    "php": "^7.4",
     "wowngasb/tiny": "^0.44",
     "nikic/php-parser": "^4"
   },
@@ -43,10 +44,6 @@
     "secure-http": false
   },
   "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "https://packagist.phpcomposer.com"
-    },
     "wowngasb": {
       "type": "git",
       "url": "https://github.com/wowngasb/tiny.git"
