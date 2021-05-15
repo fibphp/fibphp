@@ -15,6 +15,9 @@ class Env
     public string $buf = '';
     public array $tokens = [];
 
+    public ?Program $prog;
+    public int $pos = 0;
+
     const escaped = [
         'a' => "\007",
         'b' => "\010",
@@ -385,5 +388,15 @@ class Env
 
     }
 
+    public function is_eof(): bool
+    {
+        $t = $this->tokens[$this->pos];
+        return $t->ty == MainApp::TK_EOF;
+    }
+
+    public function toplevel()
+    {
+
+    }
 
 }
