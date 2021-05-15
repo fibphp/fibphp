@@ -19,7 +19,8 @@
   "require": {
     "php": "^7.4",
     "wowngasb/tiny": "^0.44",
-    "nikic/php-parser": "^4"
+    "nikic/php-parser": "^4",
+    "ext-json": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8",

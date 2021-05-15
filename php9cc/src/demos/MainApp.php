@@ -10,6 +10,8 @@ namespace php9cc\demos;
 
 use php9cc\Env;
 use php9cc\Exception\NeverRunHere;
+use php9cc\Program;
+use php9cc\Token;
 use Tiny\Abstracts\AbstractClass;
 
 class MainApp extends AbstractClass
@@ -115,11 +117,10 @@ class MainApp extends AbstractClass
     const symbols_c = "+-*/;=(),{}<>[]&.!?:|^%~#";
 
     const ord_0 = 48;
+    const ord_n = 10;
 
     private array $_options = [];
-
-    public static Env $env;
-
+    private ?Env $env;
     public static array $ord = [];
     public static array $isdigit = [];
     public static array $isalpha = [];
@@ -161,33 +162,111 @@ class MainApp extends AbstractClass
 
     public function process(string $inputFile, string $outputFile)
     {
-        $tokens = self::tokenize($inputFile, true, $this->_options);
+        $this->env = new Env(null, $inputFile, '');
+
+        $tokens = $this->tokenize($inputFile, true);
+
+        $prog = $this->parse($tokens);
+
     }
 
-    private static function tokenize(string $inputFile, bool $add_eof, array $opt): array
+    public function parse(array $tokens): Program
     {
-        $start = microtime(true);
+        $env = $this->env;
+        $env->tokens = $tokens;
 
+        $prog = new Program();
+        $env->pos = 0;
+        $env->prog = $prog;
+
+        while (!$env->is_eof()) {
+            $env->toplevel();
+        }
+
+        return $prog;
+    }
+
+    private function tokenize(string $inputFile, bool $add_eof): array
+    {
         $buf = file_get_contents($inputFile);
         $buf = self::replace_crlf($buf);
         $buf = self::remove_backslash_newline($buf);
 
-        self::$env = new Env(null, $inputFile, $buf);
-        $file = self::$env->path;
+        $env = new Env($this->env, $inputFile, $buf);
+        $file = $env->path;
+
+        /******************************************************************************************/
+        /******************************************************************************************/
+        /******************************************************************************************/
+
+        $start = microtime(true);
 
         try {
-            self::$env->scan();
+            $env->scan();
         } catch (NeverRunHere $e) {
             echo "ERR in scan {$file} err:" . $e->getMessage();
         }
         if ($add_eof) {
-            self::$env->add(self::TK_EOF, -1);
+            $env->add(self::TK_EOF, -1);
         }
+
         $used = intval((microtime(true) - $start) * 1000);
-        $tokens = self::$env->tokens;
+        $tl = count($env->tokens);
+        echo "scan file {$file}, count:{$tl} use:{$used}ms\n";
+
+        /******************************************************************************************/
+        /******************************************************************************************/
+        /******************************************************************************************/
+
+        $start = microtime(true);
+
+        $tokens = $env->tokens;
+        $tokens = $this->preprocess($tokens);
+        $tokens = self::strip_newline_tokens($tokens);
+        $tokens = self::join_string_literals($tokens);
+
+        $used = intval((microtime(true) - $start) * 1000);
         $tl = count($tokens);
-        echo "done file {$file}, count:{$tl} use:{$used}ms\n";
+        echo "preprocess file {$file}, count:{$tl} use:{$used}ms\n";
+
         return $tokens;
+    }
+
+    public function preprocess(array $tokens): array
+    {
+
+    }
+
+    private static function join_string_literals(array $tokens): array
+    {
+        $tokens_ = [];
+        /** @var Token $last */
+        $last = null;
+
+        foreach ($tokens as $token) {
+            /** @var Token $token */
+            if (!empty($last) && $last->ty == self::TK_STR && $token->ty == self::TK_STR) {
+                $last->str .= $token->str;
+                $last->len = strlen($last->str);
+                continue;
+            }
+            $last = $token;
+            $tokens_[] = $token;
+        }
+        return $tokens_;
+    }
+
+    private static function strip_newline_tokens(array $tokens): array
+    {
+        $tokens_ = [];
+        foreach ($tokens as $token) {
+            /** @var Token $token */
+            if ($token->ty == self::ord_n) {
+                continue;
+            }
+            $tokens_[] = $token;
+        }
+        return $tokens_;
     }
 
     private static function replace_crlf(string $buf): string
