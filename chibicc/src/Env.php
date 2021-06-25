@@ -1,7 +1,7 @@
 <?php
 
 
-namespace php9cc;
+namespace chibicc;
 
 
 use php9cc\demos\MainApp;

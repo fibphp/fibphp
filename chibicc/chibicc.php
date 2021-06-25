@@ -2,8 +2,8 @@
 
 require_once(dirname(__DIR__) . '/vendor/autoload.php');
 
-use php9cc\App;
-use php9cc\demos\MainApp;
+use chibicc\MainApp;
+use chibicc\MainApp\ChibiccApp;
 
 function main(array $args = [])
 {
@@ -32,28 +32,20 @@ function main(array $args = [])
         ],
     ]);
 
-    $options = MainApp::parserArgs($args);
-    // TODO TEST
-    $args[1] = 'preprocess';
+    $options = MainApp::parser_args($args);
     $options['app_root'] = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
     $options['std_root'] = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'phpstorm-stubs' . DIRECTORY_SEPARATOR;
 
     $_cmd_ = !empty($args[1]) ? trim($args[1]) : 'unknown';
     switch ($_cmd_) {
         case 'preprocess':
-            $inputFile = !empty($args[2]) ? trim($args[2]) : '';
-            $outputFile = !empty($args[3]) ? trim($args[3]) : '';
-
-            (new MainApp($options))->preprocess($inputFile, $outputFile);
             break;
         case '/h':
         case '-h':
         case '/help':
         case '--help':
         default:
-            echo <<<EOT
-Usage:  php chibicc.php preprocess <input-file> <output-file>
-EOT;
+            MainApp::echo_usage(0);
             break;
     }
 

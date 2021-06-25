@@ -64,7 +64,7 @@ class MainApp extends AbstractClass
     const TK_PARAM = 300;     // Function-like macro parameter
     const TK_EOF = 301;       // End marker
 
-    const keywords = [
+    const KEYWORDS = [
         "_Alignof" => self::TK_ALIGNOF,
         "_Bool" => self::TK_BOOL,
         "break" => self::TK_BREAK,
@@ -87,7 +87,7 @@ class MainApp extends AbstractClass
         "while" => self::TK_WHILE,
     ];
 
-    const  symbols_2 = [
+    const SYMBOLS_2 = [
         "!=" => self::TK_NE,
         "&&" => self::TK_LOGAND,
         "++" => self::TK_INC,
@@ -109,19 +109,17 @@ class MainApp extends AbstractClass
         "|=" => self::TK_OR_EQ,
     ];
 
-    const  symbols_3 = [
+    const SYMBOLS_3 = [
         "<<=" => self::TK_SHL_EQ,
         ">>=" => self::TK_SHR_EQ,
     ];
 
-    const symbols_c = "+-*/;=(),{}<>[]&.!?:|^%~#";
+    const SYMBOLS_C = "+-*/;=(),{}<>[]&.!?:|^%~#";
 
-    const ord_n = 10;
+    const ORD_N = 10;
 
-    private array $_options = [];
+    private array $_options;
     private ?Env $env;
-
-    public static array $isxdigit = [];
 
     public function __construct(array $options = [])
     {
@@ -237,7 +235,7 @@ class MainApp extends AbstractClass
         $tokens_ = [];
         foreach ($tokens as $token) {
             /** @var Token $token */
-            if ($token->ty == self::ord_n) {
+            if ($token->ty == self::ORD_N) {
                 continue;
             }
             $tokens_[] = $token;

@@ -32,6 +32,8 @@
       "phpsonarTests\\": "phpsonar/tests/",
       "php9cc\\": "php9cc/src/",
       "php9ccTests\\": "php9cc/tests/",
+      "chibicc\\": "chibicc/src/",
+      "chibiccTests\\": "chibicc/tests/",
       "fibphp\\": "src/",
       "tests\\": "tests/"
     }
