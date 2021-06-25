@@ -19,14 +19,14 @@ use Tiny\Abstracts\AbstractClass;
 
 class Analyzer extends AbstractClass
 {
-    private $_rootPath = '';
-    private $_composer = [];
-    private $_options = [];
+    private string $_rootPath;
+    private array $_composer;
+    private array $_options;
 
-    private $_ast_map = [];
-    private $_state_map = [];
+    private array $_ast_map = [];
+    private array $_state_map = [];
 
-    public static $log_level = 'INFO';
+    public static string $log_level = 'INFO';
 
     public function __construct(string $rootPath, array $composer = [], array $options = [])
     {

@@ -30,7 +30,7 @@ $app = App::app('app', [
     ],
 ]);
 
-$cl_json = 'D:\\php_sdk\\phpdev\\vc15\\x64\\tcc\\p-parser\\nmake_cl.json';
+$cl_json = 'D:\\php_sdk\\phpdev\\vc15\\x64\\php-src\\nmake_cl.json';
 $src_dir = 'D:\\php_sdk\\phpdev\\vc15\\x64\\php-src';
 $data = json_decode(file_get_contents($cl_json), true);
 foreach ($data as $item) {

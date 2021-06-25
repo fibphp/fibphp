@@ -17,7 +17,7 @@ use Tiny\Abstracts\AbstractClass;
 class MainApp extends AbstractClass
 {
 
-    const TK_NUM = 256; // Number literal
+    const TK_NUM = 256;       // Number literal
     const TK_STR = 257;       // String literal
     const TK_IDENT = 258;     // Identifier
     const TK_ARROW = 259;     // ->
@@ -116,39 +116,16 @@ class MainApp extends AbstractClass
 
     const symbols_c = "+-*/;=(),{}<>[]&.!?:|^%~#";
 
-    const ord_0 = 48;
     const ord_n = 10;
 
     private array $_options = [];
     private ?Env $env;
-    public static array $ord = [];
-    public static array $isdigit = [];
-    public static array $isalpha = [];
-    public static array $isoctal = [];
+
     public static array $isxdigit = [];
 
     public function __construct(array $options = [])
     {
         $this->_options = $options;
-        if (empty(self::$ord)) {
-            for ($t = 0; $t <= 255; $t++) {
-                $char = chr($t);
-                self::$ord[$char] = $t;
-
-                if (Env::isdigit($char)) {
-                    self::$isdigit[$char] = $t - self::ord_0;
-                }
-                if (Env::isalpha($char)) {
-                    self::$isalpha[$char] = $t;
-                }
-                if (Env::isoctal($char)) {
-                    self::$isoctal[$char] = $t - self::ord_0;
-                }
-                if (Env::isxdigit($char)) {
-                    self::$isxdigit[$char] = Env::hex($char);
-                }
-            }
-        }
     }
 
     public static function parserArgs(array $args = []): array
@@ -176,7 +153,6 @@ class MainApp extends AbstractClass
         $env->tokens = $tokens;
 
         $prog = new Program();
-        $env->pos = 0;
         $env->prog = $prog;
 
         while (!$env->is_eof()) {
@@ -234,7 +210,7 @@ class MainApp extends AbstractClass
 
     public function preprocess(array $tokens): array
     {
-
+        return $tokens;
     }
 
     private static function join_string_literals(array $tokens): array

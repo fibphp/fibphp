@@ -51,15 +51,15 @@ class Env
         return $tmp === $str;
     }
 
-    public static function isxdigit(string $char)
+    public static function isxdigit(string $char): bool
     {
-        $t = MainApp::$ord[$char];
+        $t = ord($char);
         return ($t >= 48 && $t <= 57) || ($t >= 65 && $t <= 70) || ($t >= 97 && $t <= 102);
     }
 
-    public static function hex(string $char)
+    public static function hex(string $char): int
     {
-        $t = MainApp::$ord[$char];
+        $t = ord($char);
         if ($t >= 48 && $t <= 57) {
             return $t - 48;
         }
@@ -70,22 +70,28 @@ class Env
         return $t - 97 + 10;
     }
 
-    public static function isoctal(string $char)
+    public static function isoctal(string $char): bool
     {
-        $t = MainApp::$ord[$char];
+        $t = ord($char);
         return $t >= 48 && $t <= 55;
     }
 
-    public static function isalpha(string $char)
+    public static function isalpha(string $char): bool
     {
-        $t = MainApp::$ord[$char];
+        $t = ord($char);
         return ($t >= 65 && $t <= 90) || ($t >= 97 && $t <= 122);
     }
 
-    public static function isdigit(string $char)
+    public static function isdigit(string $char): bool
     {
-        $t = MainApp::$ord[$char];
+        $t = ord($char);
         return $t >= 48 && $t <= 57;
+    }
+
+    public static function digit(string $char): int
+    {
+        $t = ord($char);
+        return $t - 48;
     }
 
     /**
@@ -109,22 +115,22 @@ class Env
     {
         $char = $this->buf[$idx];
         if ($char != "\\") {
-            $val = MainApp::$ord[$char];
+            $val = ord($char);
             return $idx + 1;
         }
         $idx += 1;
         $char = $this->buf[$idx];
         if (isset(self::escaped[$char])) {
             $char = self::escaped[$char];
-            $val = MainApp::$ord[$char];
+            $val = ord($char);
             return $idx + 1;
         }
         if ($char == 'x') {
             $tmp = 0;
             $idx += 1;
             $char = $this->buf[$idx];
-            while (isset(MainApp::$isxdigit[$char])) {
-                $tmp = $tmp * 16 + MainApp::$isxdigit[$char];
+            while (self::isxdigit($char)) {
+                $tmp = $tmp * 16 + self::hex($char);
                 $idx += 1;
                 $char = $this->buf[$idx];
             }
@@ -132,24 +138,24 @@ class Env
             return $idx;
         }
 
-        if (isset(MainApp::$isoctal[$char])) {
-            $tmp = MainApp::$isoctal[$char];
+        if (self::isoctal($char)) {
+            $tmp = ord($char);
             $idx += 1;
             $char = $this->buf[$idx];
-            if (isset(MainApp::$isoctal[$char])) {
-                $tmp = $tmp * 8 + MainApp::$isoctal[$char];
+            if (self::isoctal($char)) {
+                $tmp = $tmp * 8 + self::digit($char);
                 $idx += 1;
                 $char = $this->buf[$idx];
             }
-            if (isset(MainApp::$isoctal[$char])) {
-                $tmp = $tmp * 8 + MainApp::$isoctal[$char];
+            if (self::isoctal($char)) {
+                $tmp = $tmp * 8 + self::digit($char);
                 $idx += 1;
             }
             $val = $tmp;
             return $idx;
         }
 
-        $val = MainApp::$ord[$char];
+        $val = ord($char);
         return $idx + 1;
     }
 
@@ -202,7 +208,7 @@ class Env
     {
         $len = 1;
         $char = $this->buf[$idx + $len];
-        while (isset(MainApp::$isalpha[$char]) || isset(MainApp::$isdigit[$char]) || $char == '_') {
+        while (self::isalpha($char) || self::isdigit($char) || $char == '_') {
             $len += 1;
             $char = $this->buf[$idx + $len];
         }
@@ -226,13 +232,13 @@ class Env
         $idx += 2;
 
         $char = $this->buf[$idx];
-        if (!isset(MainApp::$isxdigit[$char])) {
+        if (!self::isxdigit($char)) {
             throw new NeverRunHere("bad hexadecimal number at {$idx}");
         }
 
         $tmp = 0;
-        while (isset(MainApp::$isxdigit[$char])) {
-            $tmp = $tmp * 16 + MainApp::$isxdigit[$char];
+        while (self::isxdigit($char)) {
+            $tmp = $tmp * 16 + self::hex($char);
             $idx += 1;
             $char = $this->buf[$idx];
         }
@@ -246,8 +252,8 @@ class Env
 
         $char = $this->buf[$idx];
         $tmp = 0;
-        while (isset(MainApp::$isoctal[$char])) {
-            $tmp = $tmp * 8 + MainApp::$isoctal[$char];
+        while (self::isoctal($char)) {
+            $tmp = $tmp * 8 + self::digit($char);
             $idx += 1;
             $char = $this->buf[$idx];
         }
@@ -263,8 +269,8 @@ class Env
 
         $char = $this->buf[$idx];
         $tmp = 0;
-        while (isset(MainApp::$isdigit[$char])) {
-            $tmp = $tmp * 10 + MainApp::$isdigit[$char];
+        while (self::isdigit($char)) {
+            $tmp = $tmp * 10 + self::digit($char);
             $idx += 1;
             $char = $this->buf[$idx];
         }
@@ -369,7 +375,7 @@ class Env
             }
 
             if (strpos(MainApp::symbols_c, $char) !== false) {
-                $t = $this->add(MainApp::$ord[$char], $idx);
+                $t = $this->add(ord($char), $idx);
                 $idx += 1;
                 $t->end = $idx;
                 continue;
@@ -380,7 +386,7 @@ class Env
                 continue;
             }
 
-            if (isset(MainApp::$isdigit[$char])) {
+            if (self::isdigit($char)) {
                 $idx = $this->number($idx);
                 continue;
             }
@@ -398,7 +404,7 @@ class Env
 
     public function toplevel()
     {
-
+        $this->pos += 1;
     }
 
 }
